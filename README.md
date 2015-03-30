@@ -10,5 +10,5 @@
 
 ## Using
 
-Fusepool P3's [p3-proxy](https://github.com/fusepoolP3/p3-proxy) is accessible directly at <http://192.168.0.110:8080/>.
-It can also be accessed using the [p3-resource-gui](https://github.com/fusepoolP3/p3-resource-gui) which can be found at <http://192.168.0.110:8081>.
+Fusepool P3's [p3-proxy](https://github.com/fusepoolP3/p3-proxy) is accessible directly at <http://yourhost:8080/>.
+It can also be accessed using the [p3-resource-gui](https://github.com/fusepoolP3/p3-resource-gui) which can be found at <http://yourhost:8081>.
