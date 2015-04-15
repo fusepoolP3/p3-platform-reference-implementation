@@ -1,5 +1,7 @@
 FROM ubuntu:trusty
 
+EXPOSE 8080 8181 8151 8190 8192 8193 8194 8196 8197 8198 8199 8205
+
 RUN apt-get update && \
     apt-get install -y curl openjdk-7-jre-headless lighttpd git && \
     apt-get clean && \
@@ -21,8 +23,8 @@ RUN cd /usr/local/lib/ && \
     curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-geo-enriching-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-geo-enriching-transformer.jar && \
     curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-xslt-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-xslt-transformer.jar && \
     curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-dictionary-matcher-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-dictionary-matcher-transformer.jar && \
-    curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-literal-extraction-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-literal-extraction-transformer.jar
-
+    curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-literal-extraction-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-literal-extraction-transformer.jar && \
+    curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-geocoordinates-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-geocoordinates-transformer.jar
 
 RUN rm -r /var/www && \
     git clone https://github.com/fusepoolP3/p3-resource-gui.git /var/www && \
@@ -32,4 +34,3 @@ ENV HOME /home/p3
 WORKDIR /home/p3
 
 CMD /usr/local/bin/startup.sh
-
