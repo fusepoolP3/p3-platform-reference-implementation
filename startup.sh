@@ -11,6 +11,11 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-proxy.jar &     # Port 8181
 # Others
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-transformer-web-client.jar -P 8151 &
 
+# GUIs
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dictionary-matcher-factory-gui.jar &
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-batchrefine-factory-gui.jar -P 8203 &
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-factory-gui.jar &
+
 # Transformers
 # TODO: stanbol, p3-osm-transformer, punditTransformer, p3-bing-translate-transformer, p3-template-transformer
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-pipeline-transformer.jar -P 8300 -C &
