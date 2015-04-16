@@ -21,9 +21,12 @@ RUN cd /usr/local/lib/ && \
     curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-literal-extraction-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-literal-extraction-transformer.jar && \
     curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-geocoordinates-transformer/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-geocoordinates-transformer.jar
 
-RUN rm -r /var/www && \
-    git clone https://github.com/fusepoolP3/p3-resource-gui.git /var/www && \
-    rm -rf /var/www/.git
+RUN rm -r /var/www/* && \
+    cd /var/www && \
+    git clone https://github.com/fusepoolP3/p3-pipeline-gui-js.git && \
+    git clone https://github.com/fusepoolP3/p3-resource-gui.git && \
+    rm -rf /var/www/*/.git
+ADD lighttpd.conf /etc/lighttpd/lighttpd.conf
 
 RUN adduser --disabled-password --gecos "P3 Platform" --uid 3000 p3
 

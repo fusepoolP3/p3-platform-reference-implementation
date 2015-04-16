@@ -6,7 +6,7 @@
 
 ## Running
 
-    docker run -d --name=p3-platform -p 8181:8181 -p 8151:8151 -p 8205:80 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 fusepoolp3/platform-reference-implementation
+    docker run -d --name=p3-platform -p 8181:8181 -p 8151:8151 -p 8201:8201 -p 8205:8205 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 fusepoolp3/platform-reference-implementation
 
 ## Using
 
