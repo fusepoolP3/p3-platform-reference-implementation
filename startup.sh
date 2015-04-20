@@ -3,6 +3,7 @@
 
 # Webserver for GUIs
 /etc/init.d/lighttpd start
+/usr/local/bin/wrapdocker
 
 # LDP
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-ldp-marmotta.jar &     # Port 8080
@@ -25,4 +26,5 @@ su p3 -s /usr/bin/java -- -Xmx1g -jar /usr/local/lib/p3-any23-transformer.jar -p
 su p3 -s /usr/bin/java -- -Xmx2g -jar /usr/local/lib/p3-literal-extraction-transformer.jar -p 8305 &
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-silkdedup.jar -P 8306 &
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar -P 8307 &
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar -P 8308
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar -P 8308 &
+docker run -p 8310:7100 fusepool/p3-batchrefine
