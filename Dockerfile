@@ -36,10 +36,14 @@ RUN cd /usr/local/lib/ && \
 
 # Setup webserver and add HTML-only GUIs
 ADD lighttpd.conf /etc/lighttpd/lighttpd.conf
+
 RUN cd /var/www/ && git clone https://github.com/fusepoolP3/p3-resource-gui.git && \
     git clone https://github.com/fusepoolP3/p3-404-check scripts && \
     rm -rf /var/www/*/.git
-ADD index.html /war/www/index.html
+
+ADD index.html /var/www/index.html
+
+ADD index.html /etc/test
 
 # Setup user & environment
 RUN adduser --disabled-password --gecos "P3 Platform" --uid 3000 p3
