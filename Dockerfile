@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-EXPOSE 80 8181 8151 8205 8300 8301 8302 8303 8305 8306 8307 8308 8310
+EXPOSE 80 8181 8151 8200 8205 8300 8301 8302 8303 8305 8306 8307 8308 8310
 
 # Upgrade system and install required debs
 RUN apt-get update && \

@@ -8,7 +8,7 @@
 
 To access the Fusepool P3 entry page at the default port 80 start the docker like that
 
-    docker run --privileged -d --name=p3-platform -p 80:80 -p 8181:8181 -p 8151:8151 -p 8201:8201 -p 8202:8202 -p 8203:8203 -p 8204:8204 -p 8205:8205 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 -p 8310:8310 fusepoolp3/platform-reference-implementation
+    docker run --privileged -d --name=p3-platform -p 80:80 -p 8181:8181 -p 8151:8151 -p 8200:8200 -p 8201:8201 -p 8202:8202 -p 8203:8203 -p 8204:8204 -p 8205:8205 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 -p 8310:8310 fusepoolp3/platform-reference-implementation
 
 To stop the container:
 
@@ -16,7 +16,7 @@ To stop the container:
 
 to restart the container:
 
-    docer start p3-platform
+    docker start p3-platform
 
 Starting things can take quite a while, be patient. To see what's going on, use the following command:
 
@@ -40,6 +40,7 @@ can be accessed over the ports exposed by the container. Curently, these are:
 
 * 8181 - Fusepool's Marmotta LDP over [p3-proxy](https://github.com/fusepoolP3/p3-proxy)
 * 8151 - [p3-transformer-web-client](https://github.com/fusepoolP3/p3-transformer-web-client)
+* 8200 - [p3-dashboard](https://github.com/fusepoolP3/p3-dashboard)
 * 8201 - [p3-pipeline-gui-js](https://github.com/fusepoolP3/p3-pipeline-gui-js)
 * 8202 - [p3-dictionary-matcher-factory-gui](https://github.com/fusepoolP3/p3-dictionary-matcher-factory-gui)
 * 8203 - [p3-batchrefine-factory-gui](https://github.com/fusepoolP3/p3-batchrefine-factory-gui)
