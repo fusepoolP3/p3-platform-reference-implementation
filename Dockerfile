@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-EXPOSE 80 8181 8151 8200 8205 8300 8301 8302 8303 8305 8306 8307 8308 8310
+EXPOSE 80 8181 8151 8200 8201 8202 8203 8204 8205 8300 8301 8302 8303 8305 8306 8307 8308 8310
 
 # Upgrade system and install required debs
 RUN apt-get update && \
@@ -36,14 +36,12 @@ RUN cd /usr/local/lib/ && \
 
 # Setup webserver and add HTML-only GUIs
 ADD lighttpd.conf /etc/lighttpd/lighttpd.conf
-
+ADD index.html /var/www/index.html
 RUN cd /var/www/ && git clone https://github.com/fusepoolP3/p3-resource-gui.git && \
     git clone https://github.com/fusepoolP3/p3-404-check scripts && \
-    rm -rf /var/www/*/.git
+    rm -rf /var/www/*/.git && \
+    chmod 644 /var/www/index.html
 
-ADD index.html /var/www/index.html
-
-ADD index.html /etc/test
 
 # Setup user & environment
 RUN adduser --disabled-password --gecos "P3 Platform" --uid 3000 p3
