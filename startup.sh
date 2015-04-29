@@ -24,7 +24,7 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-factory-gui.jar &
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-pipeline-transformer.jar -P 8300 -C &
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dictionary-matcher-transformer.jar -P 8301 &
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geo-enriching-transformer.jar -P 8302 &
-su p3 -s /usr/bin/java -- -Xmx1g -jar /usr/local/lib/p3-any23-transformer.jar -p 8303 &
+su p3 -s /usr/bin/java -- -Xmx1g -jar /usr/local/lib/p3-any23-transformer.jar &     # Port 8303
 su p3 -s /usr/bin/java -- -Xmx2g -jar /usr/local/lib/p3-literal-extraction-transformer.jar -p 8305 &
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-silkdedup.jar -P 8306 &
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar -P 8307 &
