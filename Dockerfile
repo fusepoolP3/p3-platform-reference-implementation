@@ -38,7 +38,8 @@ RUN cd /usr/local/lib/ && \
 ADD lighttpd.conf /etc/lighttpd/lighttpd.conf
 ADD index.html /var/www/index.html
 RUN cd /var/www/ && git clone https://github.com/fusepoolP3/p3-resource-gui.git && \
-    git clone https://github.com/fusepoolP3/p3-404-check scripts && \
+    mkdir js && cd js && \
+    git clone https://github.com/fusepoolP3/p3-autoconfiguration-tool.git autoconfig && \
     rm -rf /var/www/*/.git && \
     chmod 644 /var/www/index.html
 
