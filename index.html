@@ -7,10 +7,10 @@
         <script src="/js/autoconfig/p3-check.js"></script>
         <script>
             var host = window.location.hostname;
-            P3Check.initP3Platform("http://" + host + ":8181/ldp/platform", "http://" + host + ":8181/sparql");
+            P3Check.initP3Platform("http://" + host + ":8181/ldp/platform", "http://" + host + ":8181/sparql/select");
             P3Check.registerFactories(["http://" + host + ":8201/", "http://" + host + ":8202/?transformerBase=http://" + host + ":8301"]);
             $(function () {
-                $(".dashboard-link").attr("href", "http://" + host + ":8200/?configRegistry=http://" + host + ":8181/ldp/cr-ldpc");
+                $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI=http://" + host + ":8181/ldp/platform");
                 $(".host").each(
                     function() {
                      $(this).text(host)    
