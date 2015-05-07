@@ -38,10 +38,10 @@ RUN cd /usr/local/lib/ && \
 # Setup webserver and add HTML-only GUIs
 ADD index.html /var/www/index.html
 RUN cd /var/www/ && \
-    git clone https://github.com/fusepoolP3/p3-404-check scripts && \
+    mkdir js && cd js && \
+    git clone https://github.com/fusepoolP3/p3-autoconfiguration-tool.git autoconfig && \
     rm -rf /var/www/*/.git && \
     chmod 644 /var/www/index.html
-
 
 # Setup user & environment
 RUN adduser --disabled-password --gecos "P3 Platform" --uid 3000 p3
