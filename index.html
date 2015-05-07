@@ -6,10 +6,23 @@
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/js/autoconfig/p3-check.js"></script>
         <script>
-            var host = window.location.hostname;
-            P3Check.initP3Platform("http://" + host + ":8181/ldp/platform", "http://" + host + ":8181/sparql/select");
-            P3Check.registerFactories(["http://" + host + ":8201/", "http://" + host + ":8202/?transformerBase=http://" + host + ":8301"]);
+            
             $(function () {
+                var host = window.location.hostname;
+                P3Check.initP3Platform("http://" + host + ":8181/ldp/platform", "http://" + host + ":8181/sparql/select");
+                if (P3Check.platformStatus.startsWith("error")) {
+                    console.log("Reloading in 2s as P3Check failed");
+                    var reload = function() {location.reload()}
+                    setTimeout(reload, 2000);
+                    return;
+                }
+                P3Check.registerFactory("http://" + host + ":8201/?transformerBase=http://" + host + ":8300", "Pipeline UI", "Allows to create pipeline transformers.");
+                P3Check.registerFactory("http://" + host + ":8202/?transformerBase=http://" + host + ":8301", "Dictionary Matcher UI", "Allows to create dictionary matcher transformers.");
+                P3Check.registerFactory("http://" + host + ":8203/?transformerBase=http://" + host + ":8310", "Batchrefine UI", "Allows to create transformers using Openrefine configurations.");
+                P3Check.registerFactory("http://" + host + ":8204/?transformerBase=http://" + host + ":8307", "XSLT Transformer UI", "Allows to create XSLT transformers.");
+                P3Check.registerTransformer("http://" + host + ":8303/", "Any23 Transformer", "Transform data using Apache Any23");
+                $("#wait").hide();
+                $("#content").css('visibility', 'visible');
                 $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI=http://" + host + ":8181/ldp/platform");
                 $(".host").each(
                     function() {
@@ -26,6 +39,10 @@
 
     </head>
     <body>
+        <div id="wait">
+            Please wait, the platform is not quite ready yet.
+        </div>
+        <div id="content" style="visibility:  hidden">
         <h1>Welcome to P3</h1>
         <p>Check out the <a class="dashboard-link">Dashboard</a> which allows access
             to most of the functionality of the P3 Platform.</p>
@@ -68,6 +85,7 @@
             <li><a href="http://{host}:8310/"><span class="host"></span>:8310</a> - <a href="https://github.com/fusepoolP3/p3-batchrefine">p3-batchrefine</a>
             </li>
         </ul>
+        </div>
 
     </body>
 </html>
