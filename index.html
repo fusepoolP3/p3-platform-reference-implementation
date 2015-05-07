@@ -6,11 +6,11 @@
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/scripts/p3-check.js"></script>
         <script>
-            var host = window.location.hostname
+            var host = window.location.hostname;
             P3Check.initP3Platform("http://" + host + ":8181/ldp/platform", "http://" + host + ":8181/sparql");
             P3Check.registerFactories(["http://" + host + ":8201/", "http://" + host + ":8202/?transformerBase=http://" + host + ":8301"]);
             $(function () {
-                $("#dashboard-link").attr("href", "http://" + host + ":8200/?configRegistry=http://" + host + ":8181/ldp/cr-ldpc");
+                $(".dashboard-link").attr("href", "http://" + host + ":8200/?configRegistry=http://" + host + ":8181/ldp/cr-ldpc");
                 $(".host").each(
                     function() {
                      $(this).text(host)    
@@ -27,7 +27,7 @@
     </head>
     <body>
         <h1>Welcome to P3</h1>
-        <p>Check out the <a id="dashboard-link">Dashboard</a> which allows access 
+        <p>Check out the <a class="dashboard-link">Dashboard</a> which allows access
             to most of the functionality of the P3 Platform.</p>
 
         <p>You can also directly access the individual components:</p>
@@ -37,7 +37,7 @@
             </li>
             <li><a href="http://{host}:8151/"><span class="host"></span>:8151</a> - <a href="https://github.com/fusepoolP3/p3-transformer-web-client">p3-transformer-web-client</a>
             </li>
-            <li><a href="http://{host}:8200/"><span class="host"></span>:8200</a> - <a href="https://github.com/fusepoolP3/p3-dashboard">p3-dashboard</a>
+            <li><a class="dashboard-link"><span class="host"></span>:8200</a> - <a href="https://github.com/fusepoolP3/p3-dashboard">p3-dashboard</a>
             </li>
             <li><a href="http://{host}:8201/"><span class="host"></span>:8201</a> - <a href="https://github.com/fusepoolP3/p3-pipeline-gui-js">p3-pipeline-gui-js</a>
             </li>
