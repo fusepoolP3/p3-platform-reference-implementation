@@ -5,11 +5,24 @@
         <title>Welcome to P3</title>
         <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="/js/autoconfig/p3-check.js"></script>
+        <script src="/js/rdf2h/js/libs/rdf-ext/rdf-ext.js"></script>
+        <script src="/js/rdf2h/js/libs/mustache.js/mustache.js"></script>
+        <script src="/js/rdf2h/rdf2h.js"></script>
         <script>
+            
+            var getPlatform = function(uri, callback) {
+                var store = new rdf.LdpStore();
+                store.match(uri,
+                            null,
+                            null,
+                            null,
+                            callback);
+                };
             
             $(function () {
                 var host = window.location.hostname;
-                P3Check.initP3Platform("http://" + host + ":8181/ldp/platform", "http://" + host + ":8181/sparql/select");
+                var platformURI = "http://" + host + ":8181/ldp/platform";
+                P3Check.initP3Platform(platformURI, "http://" + host + ":8181/sparql/select");
                 if (P3Check.platformStatus.startsWith("error")) {
                     console.log("Reloading in 2s as P3Check failed");
                     var reload = function() {location.reload()}
@@ -21,9 +34,19 @@
                 P3Check.registerFactory("http://" + host + ":8203/?transformerBase=http://" + host + ":8310", "Batchrefine UI", "Allows to create transformers using Openrefine configurations.");
                 P3Check.registerFactory("http://" + host + ":8204/?transformerBase=http://" + host + ":8307", "XSLT Transformer UI", "Allows to create XSLT transformers.");
                 P3Check.registerTransformer("http://" + host + ":8303/", "Any23 Transformer", "Transform data using Apache Any23");
-                $("#wait").hide();
-                $("#content").css('visibility', 'visible');
-                $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI=http://" + host + ":8181/ldp/platform");
+
+                var matchersTtl = $("#matchers").text();
+                rdf.parseTurtle(matchersTtl, function (matchers) {
+                    getPlatform(
+                         platformURI,
+                         function (data) {
+                             console.log(data.toString());
+                             var rendered = new RDF2h(matchers).render(data, rdf.createNamedNode(platformURI));
+                             $("#platform").html(rendered);
+                         });
+                }, window.location.toString());
+                
+                $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI="+platformURI);
                 $(".host").each(
                     function() {
                      $(this).text(host)    
@@ -34,8 +57,39 @@
                       var newHref = origHref.replace("{host}", host);
                       $(this).attr("href", newHref);
                     });
+                $("#wait").hide();
+                $("#content").css('visibility', 'visible');
             });
         </script>
+
+        <script id="matchers" type="text/turtle">
+            @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+            @prefix rdfs:	<http://www.w3.org/2000/01/rdf-schema#> .
+            @prefix r2h: <http://rdf2h.github.io/2015/rdf2h#> .
+            @prefix dcterms: <http://purl.org/dc/terms/> .
+            @prefix fp3: <http://vocab.fusepool.info/fp3#>.
+ 
+            <platformConfig> a r2h:Matcher ;
+                    r2h:triplePattern [    
+                    r2h:subject r2h:this;
+                    r2h:predicate fp3:transformerFactoryRegistry
+                ];
+                r2h:template [ 
+                    r2h:context r2h:Default;
+                    r2h:mustache <#platform-template>
+                ].
+            
+        </script>
+        
+        <script id="platform-template" type="text/x-mustache-template">
+        Title: {{dcterms:title}}<br/>
+        URI: {{.}}<br/>
+        Transformer Factory Registry: {{fp3:transformerFactoryRegistry}}<br />
+        Transformer Registry: {{fp3:transformerRegistry}}<br />
+        Sparql Endpoint: {{fp3:sparqlEndpoint}}<br />
+        User Interaction Request Registry: {{fp3:userInteractionRegistry}}
+        </script>
+
 
     </head>
     <body>
@@ -47,6 +101,8 @@
         <p>Check out the <a class="dashboard-link">Dashboard</a> which allows access
             to most of the functionality of the P3 Platform.</p>
 
+        
+        
         <p>You can also directly access the individual components:</p>
 
         <ul class="task-list">
@@ -85,6 +141,10 @@
             <li><a href="http://{host}:8310/"><span class="host"></span>:8310</a> - <a href="https://github.com/fusepoolP3/p3-batchrefine">p3-batchrefine</a>
             </li>
         </ul>
+        
+        <h2>Platform details</h2>
+        <div id="platform"></div>
+        
         </div>
 
     </body>
