@@ -76,6 +76,8 @@
             @prefix fp3: <http://vocab.fusepool.info/fp3#>.
             @prefix ldp: <http://www.w3.org/ns/ldp#>.
             @prefix tfr: <http://vocab.fusepool.info/tfrldpc#>.
+            @prefix tr: <http://vocab.fusepool.info/trldpc#>.
+            @prefix trans: <http://vocab.fusepool.info/transformer#> .
             @prefix dct: <http://purl.org/dc/terms/> .
  
             <platformConfig> a r2h:Matcher ;
@@ -105,6 +107,46 @@
                 ];
                 r2h:before <ldpc>.
                         
+            <tr> a r2h:Matcher ;
+                r2h:triplePattern [    
+                    r2h:subject r2h:this;
+                    r2h:predicate rdf:type;
+                    r2h:object tr:TransformerRegistration
+                ];
+                r2h:template [ 
+                    r2h:context r2h:Default;
+                    r2h:mustache '''
+
+<h4>{{dct:title}}</h4>
+<p>URI: <a href="{{tr:transformer}}">{{tr:transformer}}</a></p>
+<p>{{dct:description}}</p>
+<div class="fetch" resource="{{tr:transformer}}"></div>'''
+                ];
+                r2h:before <ldpc>.
+                        
+            <transformer> a r2h:Matcher ;
+                r2h:triplePattern [    
+                    r2h:subject r2h:this;
+                    r2h:predicate trans:supportedInputFormat;
+                ];
+                r2h:template [ 
+                    r2h:context r2h:Default;
+                    r2h:mustache '''
+Supported Input Formats:<br/>
+<ul>
+{{#trans:supportedInputFormat}}
+<li>{{.}}</li>
+{{/trans:supportedInputFormat}}
+</ul>
+Supported Output Formats:<br/>
+<ul>
+{{#trans:supportedOutputFormat}}
+<li>{{.}}</li>
+{{/trans:supportedOutputFormat}}
+</ul>'''
+                ];
+                r2h:before <tr>.                        
+                        
             <ldpc> a r2h:Matcher ;
                 r2h:triplePattern [    
                     r2h:subject r2h:this;
@@ -116,7 +158,7 @@
                     r2h:mustache '''
 <ul>
 {{#ldp:contains}}
-<div resource="{{.}}" class="fetch">element of container</div>
+<li resource="{{.}}" class="fetch">element of container</li>
 {{/ldp:contains}}
 </ul>'''
                 ].
@@ -127,8 +169,11 @@
         Title: {{dcterms:title}}<br/>
         URI: {{.}}<br/>
         <h3>Registered Transformer Factory UIs</h3>
-        <div resource="{{fp3:transformerFactoryRegistry}}" class="fetch">tfr</div><br />
+        Transformer Factory Registry: {{fp3:transformerFactoryRegistry}}<br />
+        <div resource="{{fp3:transformerFactoryRegistry}}" class="fetch">tfr</div>
+        <h3>Registered Transformers</h3>
         Transformer Registry: {{fp3:transformerRegistry}}<br />
+        <div resource="{{fp3:transformerRegistry}}" class="fetch">tfr</div>
         Sparql Endpoint: {{fp3:sparqlEndpoint}}<br />
         User Interaction Request Registry: {{fp3:userInteractionRegistry}}
         </script>
