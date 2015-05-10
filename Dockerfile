@@ -41,6 +41,7 @@ RUN cd /var/www/ && \
     mkdir js && cd js && \
     git clone https://github.com/fusepoolP3/p3-autoconfiguration-tool.git autoconfig && \
     git clone https://github.com/rdf2h/rdf2h.git && \
+    git clone https://github.com/rdf2h/ld2h.git && \
     rm -rf /var/www/*/.git && \
     chmod 644 /var/www/index.html
 
