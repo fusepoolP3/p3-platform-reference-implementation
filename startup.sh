@@ -31,4 +31,4 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar &         
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar -P 8308 &
 # TODO: stanbol, p3-osm-transformer, punditTransformer, p3-bing-translate-transformer
 
-docker run -p 8310:7100 fusepool/p3-batchrefine
+docker run -p 8310:8310 fusepool/p3-batchrefine
