@@ -25,10 +25,11 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-pipeline-transformer.jar -C &  
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dictionary-matcher-transformer.jar &           # Port 8301
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geo-enriching-transformer.jar -P 8302 &
 su p3 -s /usr/bin/java -- -Xmx1g -jar /usr/local/lib/p3-any23-transformer.jar &                 # Port 8303
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-stanbol-launcher.jar -p 8304 &                 # Port 8304
 su p3 -s /usr/bin/java -- -Xmx2g -jar /usr/local/lib/p3-literal-extraction-transformer.jar &    # Port 8305
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-silkdedup.jar &                                # Port 8306
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar &                         # port 8307
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar -P 8308 &
-# TODO: stanbol, p3-osm-transformer, punditTransformer, p3-bing-translate-transformer
+# TODO: p3-osm-transformer, punditTransformer, p3-bing-translate-transformer 
 
 docker run -p 8310:8310 fusepool/p3-batchrefine
