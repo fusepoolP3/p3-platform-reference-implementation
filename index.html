@@ -8,23 +8,30 @@
         <script src="/js/rdf2h/dist/rdf2h.js"></script>
         <script src="/js/ld2h/js/ld2h.js"></script>
         <script>
-            
-            var getPlatform = function(uri, callback) {
-                var store = new rdf.LdpStore();
-                store.match(uri,
+            $(function () {
+
+                var store = new rdf.LdpStore({parsers: {
+                        //'application/ld+json': rdf.parseJsonLd,
+                        //'application/n-triples': rdf.parseTurtle,
+                        'text/turtle': rdf.parseTurtle
+                    }});
+
+                var getPlatform = function (uri, callback) {
+                    store.match(uri,
                             null,
                             null,
                             null,
                             callback);
                 };
-                        
-            $(function () {
+
                 var host = window.location.hostname;
                 var platformURI = "http://" + host + ":8181/ldp/platform";
                 P3Check.initP3Platform(platformURI, "http://" + host + ":8181/sparql/select");
                 if (P3Check.platformStatus.startsWith("error")) {
                     console.log("Reloading in 2s as P3Check failed");
-                    var reload = function() {location.reload()}
+                    var reload = function () {
+                        location.reload()
+                    }
                     setTimeout(reload, 2000);
                     return;
                 }
@@ -33,36 +40,36 @@
                 P3Check.registerFactory("http://" + host + ":8203/?transformerBase=http://" + host + ":8310", "Batchrefine UI", "Allows to create transformers using Openrefine configurations.");
                 P3Check.registerFactory("http://" + host + ":8204/?transformerBase=http://" + host + ":8307", "XSLT Transformer UI", "Allows to create XSLT transformers.");
                 P3Check.registerTransformer("http://" + host + ":8303/", "Any23 Transformer", "Transform data using Apache Any23");
+                var stanbolRequest = P3Check.configureStanbol("http://" + host + ":8304/", platformURI);
+                stanbolRequest.done(function (response, textStatus, responseObj) {
+                    console.info("Stanbol configured with ", response);
+                });
 
 
                 var matchersTtl = $("#matchers").text();
                 rdf.parseTurtle(matchersTtl, function (matchers) {
                     getPlatform(
-                         platformURI,
-                         function (data) {
-                             console.log(data.toString());
-                             var rendered = new RDF2h(matchers).render(data, rdf.createNamedNode(platformURI));
-                             $("#platform").html(rendered);
-                             LD2h.store = new rdf.LdpStore({parsers:  {
-                                  //'application/ld+json': rdf.parseJsonLd,
-                                  //'application/n-triples': rdf.parseTurtle,
-                                  'text/turtle': rdf.parseTurtle
-                                }});
-                             LD2h.expand();
-                         });
-                }, window.location.toString());                                
-                
-                $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI="+platformURI);
+                            platformURI,
+                            function (data) {
+                                console.log(data.toString());
+                                var rendered = new RDF2h(matchers).render(data, rdf.createNamedNode(platformURI));
+                                $("#platform").html(rendered);
+                                LD2h.store = store;
+                                LD2h.expand();
+                            });
+                }, window.location.toString());
+
+                $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI=" + platformURI);
                 $(".host").each(
-                    function() {
-                     $(this).text(host)    
-                    });
+                        function () {
+                            $(this).text(host)
+                        });
                 $("a").each(
-                    function() {
-                      var origHref = $(this).attr("href");
-                      var newHref = origHref.replace("{host}", host);
-                      $(this).attr("href", newHref);
-                    });
+                        function () {
+                            var origHref = $(this).attr("href");
+                            var newHref = origHref.replace("{host}", host);
+                            $(this).attr("href", newHref);
+                        });
                 $("#wait").hide();
                 $("#content").css('visibility', 'visible');
             });
@@ -164,18 +171,18 @@ Supported Output Formats:<br/>
                 ].
             
         </script>
-        
+
         <script id="platform-template" type="text/x-mustache-template">
-        Title: {{dcterms:title}}<br/>
-        URI: {{.}}<br/>
-        <h3>Registered Transformer Factory UIs</h3>
-        Transformer Factory Registry: {{fp3:transformerFactoryRegistry}}<br />
-        <div resource="{{fp3:transformerFactoryRegistry}}" class="fetch">tfr</div>
-        <h3>Registered Transformers</h3>
-        Transformer Registry: {{fp3:transformerRegistry}}<br />
-        <div resource="{{fp3:transformerRegistry}}" class="fetch">tfr</div>
-        Sparql Endpoint: {{fp3:sparqlEndpoint}}<br />
-        User Interaction Request Registry: {{fp3:userInteractionRegistry}}
+            Title: {{dcterms:title}}<br/>
+            URI: {{.}}<br/>
+            <h3>Registered Transformer Factory UIs</h3>
+            Transformer Factory Registry: {{fp3:transformerFactoryRegistry}}<br />
+            <div resource="{{fp3:transformerFactoryRegistry}}" class="fetch">tfr</div>
+            <h3>Registered Transformers</h3>
+            Transformer Registry: {{fp3:transformerRegistry}}<br />
+            <div resource="{{fp3:transformerRegistry}}" class="fetch">tfr</div>
+            Sparql Endpoint: {{fp3:sparqlEndpoint}}<br />
+            User Interaction Request Registry: {{fp3:userInteractionRegistry}}
         </script>
 
 
@@ -185,56 +192,56 @@ Supported Output Formats:<br/>
             Please wait, the platform is not quite ready yet.
         </div>
         <div id="content" style="visibility:  hidden">
-        <h1>Welcome to P3</h1>
-        <p>Check out the <a class="dashboard-link">Dashboard</a> which allows access
-            to most of the functionality of the P3 Platform.</p>
+            <h1>Welcome to P3</h1>
+            <p>Check out the <a class="dashboard-link">Dashboard</a> which allows access
+                to most of the functionality of the P3 Platform.</p>
 
-        
-        
-        <p>You can also directly access the individual components:</p>
 
-        <ul class="task-list">
-            <li><a href="http://{host}:8181/ldp/"><span class="host"></span>:8181</a> - Fusepool's <a href="https://github.com/fusepoolP3/p3-ldp-marmotta">Marmotta LDP</a> over <a href="https://github.com/fusepoolP3/p3-proxy">p3-proxy</a>
-            </li>
-            <li><a href="http://{host}:8151/"><span class="host"></span>:8151</a> - <a href="https://github.com/fusepoolP3/p3-transformer-web-client">p3-transformer-web-client</a>
-            </li>
-            <li><a class="dashboard-link"><span class="host"></span>:8200</a> - <a href="https://github.com/fusepoolP3/p3-dashboard">p3-dashboard</a>
-            </li>
-            <li><a href="http://{host}:8201/"><span class="host"></span>:8201</a> - <a href="https://github.com/fusepoolP3/p3-pipeline-gui-js">p3-pipeline-gui-js</a>
-            </li>
-            <li><a href="http://{host}:8202/"><span class="host"></span>:8202</a> - <a href="https://github.com/fusepoolP3/p3-dictionary-matcher-factory-gui">p3-dictionary-matcher-factory-gui</a>
-            </li>
-            <li><a href="http://{host}:8203/"><span class="host"></span>:8203</a> - <a href="https://github.com/fusepoolP3/p3-batchrefine-factory-gui">p3-batchrefine-factory-gui</a>
-            </li>
-            <li><a href="http://{host}:8204/"><span class="host"></span>:8204</a> - <a href="https://github.com/fusepoolP3/p3-xslt-factory-gui">p3-xslt-factory-gui</a>
-            </li>
-            <li><a href="http://{host}:8205/"><span class="host"></span>:8205</a> - <a href="https://github.com/fusepoolP3/p3-resource-gui">p3-resource-gui</a>
-            </li>
-            <li><a href="http://{host}:8300/"><span class="host"></span>:8300</a> - <a href="https://github.com/fusepoolP3/p3-pipeline-transformer">p3-pipeline-transformer</a>
-            </li>
-            <li><a href="http://{host}:8301/"><span class="host"></span>:8301</a> - <a href="https://github.com/fusepoolP3/p3-dictionary-matcher-transformer">p3-dictionary-matcher-transformer</a>
-            </li>
-            <li><a href="http://{host}:8302/"><span class="host"></span>:8302</a> - <a href="https://github.com/fusepoolP3/p3-geo-enriching-transformer">p3-geo-enriching-transformer</a>
-            </li>
-            <li><a href="http://{host}:8303/"><span class="host"></span>:8303</a> - <a href="https://github.com/fusepoolP3/p3-any23-transformer">p3-any23-transformer</a>
-            </li>
-            <li><a href="http://{host}:8304/"><span class="host"></span>:8304</a> - <a href="https://github.com/fusepoolP3/p3-stanbol-launcher">p3-stanbol-launcher</a>
-            </li>
-            <li><a href="http://{host}:8305/"><span class="host"></span>:8305</a> - <a href="https://github.com/fusepoolP3/p3-literal-extraction-transformer">p3-literal-extraction-transformer</a>
-            </li>
-            <li><a href="http://{host}:8306/"><span class="host"></span>:8306</a> - <a href="https://github.com/fusepoolP3/p3-silkdedup">p3-silkdedup</a>
-            </li>
-            <li><a href="http://{host}:8307/"><span class="host"></span>:8307</a> - <a href="https://github.com/fusepoolP3/p3-xslt-transformer">p3-xslt-transformer</a>
-            </li>
-            <li><a href="http://{host}:8308/"><span class="host"></span>:8308</a> - <a href="https://github.com/fusepoolP3/p3-geocoordinates-transformer">p3-geocoordinates-transformer</a>
-            </li>
-            <li><a href="http://{host}:8310/"><span class="host"></span>:8310</a> - <a href="https://github.com/fusepoolP3/p3-batchrefine">p3-batchrefine</a>
-            </li>
-        </ul>
-        
-        <h2>Platform details</h2>
-        <div id="platform"></div>
-        
+
+            <p>You can also directly access the individual components:</p>
+
+            <ul class="task-list">
+                <li><a href="http://{host}:8181/ldp/"><span class="host"></span>:8181</a> - Fusepool's <a href="https://github.com/fusepoolP3/p3-ldp-marmotta">Marmotta LDP</a> over <a href="https://github.com/fusepoolP3/p3-proxy">p3-proxy</a>
+                </li>
+                <li><a href="http://{host}:8151/"><span class="host"></span>:8151</a> - <a href="https://github.com/fusepoolP3/p3-transformer-web-client">p3-transformer-web-client</a>
+                </li>
+                <li><a class="dashboard-link"><span class="host"></span>:8200</a> - <a href="https://github.com/fusepoolP3/p3-dashboard">p3-dashboard</a>
+                </li>
+                <li><a href="http://{host}:8201/"><span class="host"></span>:8201</a> - <a href="https://github.com/fusepoolP3/p3-pipeline-gui-js">p3-pipeline-gui-js</a>
+                </li>
+                <li><a href="http://{host}:8202/"><span class="host"></span>:8202</a> - <a href="https://github.com/fusepoolP3/p3-dictionary-matcher-factory-gui">p3-dictionary-matcher-factory-gui</a>
+                </li>
+                <li><a href="http://{host}:8203/"><span class="host"></span>:8203</a> - <a href="https://github.com/fusepoolP3/p3-batchrefine-factory-gui">p3-batchrefine-factory-gui</a>
+                </li>
+                <li><a href="http://{host}:8204/"><span class="host"></span>:8204</a> - <a href="https://github.com/fusepoolP3/p3-xslt-factory-gui">p3-xslt-factory-gui</a>
+                </li>
+                <li><a href="http://{host}:8205/"><span class="host"></span>:8205</a> - <a href="https://github.com/fusepoolP3/p3-resource-gui">p3-resource-gui</a>
+                </li>
+                <li><a href="http://{host}:8300/"><span class="host"></span>:8300</a> - <a href="https://github.com/fusepoolP3/p3-pipeline-transformer">p3-pipeline-transformer</a>
+                </li>
+                <li><a href="http://{host}:8301/"><span class="host"></span>:8301</a> - <a href="https://github.com/fusepoolP3/p3-dictionary-matcher-transformer">p3-dictionary-matcher-transformer</a>
+                </li>
+                <li><a href="http://{host}:8302/"><span class="host"></span>:8302</a> - <a href="https://github.com/fusepoolP3/p3-geo-enriching-transformer">p3-geo-enriching-transformer</a>
+                </li>
+                <li><a href="http://{host}:8303/"><span class="host"></span>:8303</a> - <a href="https://github.com/fusepoolP3/p3-any23-transformer">p3-any23-transformer</a>
+                </li>
+                <li><a href="http://{host}:8304/"><span class="host"></span>:8304</a> - <a href="https://github.com/fusepoolP3/p3-stanbol-launcher">p3-stanbol-launcher</a>
+                </li>
+                <li><a href="http://{host}:8305/"><span class="host"></span>:8305</a> - <a href="https://github.com/fusepoolP3/p3-literal-extraction-transformer">p3-literal-extraction-transformer</a>
+                </li>
+                <li><a href="http://{host}:8306/"><span class="host"></span>:8306</a> - <a href="https://github.com/fusepoolP3/p3-silkdedup">p3-silkdedup</a>
+                </li>
+                <li><a href="http://{host}:8307/"><span class="host"></span>:8307</a> - <a href="https://github.com/fusepoolP3/p3-xslt-transformer">p3-xslt-transformer</a>
+                </li>
+                <li><a href="http://{host}:8308/"><span class="host"></span>:8308</a> - <a href="https://github.com/fusepoolP3/p3-geocoordinates-transformer">p3-geocoordinates-transformer</a>
+                </li>
+                <li><a href="http://{host}:8310/"><span class="host"></span>:8310</a> - <a href="https://github.com/fusepoolP3/p3-batchrefine">p3-batchrefine</a>
+                </li>
+            </ul>
+
+            <h2>Platform details</h2>
+            <div id="platform"></div>
+
         </div>
 
     </body>
