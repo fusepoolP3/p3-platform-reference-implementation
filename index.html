@@ -26,52 +26,65 @@
 
                 var host = window.location.hostname;
                 var platformURI = "http://" + host + ":8181/ldp/platform";
-                P3Check.initP3Platform(platformURI, "http://" + host + ":8181/sparql/select");
-                if (P3Check.platformStatus.startsWith("error")) {
-                    console.log("Reloading in 2s as P3Check failed");
-                    var reload = function () {
-                        location.reload()
-                    }
-                    setTimeout(reload, 2000);
-                    return;
-                }
-                P3Check.registerFactory("http://" + host + ":8201/?transformerBase=http://" + host + ":8300", "Pipeline UI", "Allows to create pipeline transformers.");
-                P3Check.registerFactory("http://" + host + ":8202/?transformerBase=http://" + host + ":8301", "Dictionary Matcher UI", "Allows to create dictionary matcher transformers.");
-                P3Check.registerFactory("http://" + host + ":8203/?transformerBase=http://" + host + ":8310", "Batchrefine UI", "Allows to create transformers using Openrefine configurations.");
-                P3Check.registerFactory("http://" + host + ":8204/?transformerBase=http://" + host + ":8307", "XSLT Transformer UI", "Allows to create XSLT transformers.");
-                P3Check.registerTransformer("http://" + host + ":8303/", "Any23 Transformer", "Transform data using Apache Any23");
-                var stanbolRequest = P3Check.configureStanbol("http://" + host + ":8304/", platformURI);
-                stanbolRequest.done(function (response, textStatus, responseObj) {
-                    console.info("Stanbol configured with ", response);
-                });
+                P3Check.initP3Platform(platformURI, "http://" + host + ":8181/sparql/select").then(
+                        function (platform) {
+                            var registartionJobs = [];
+                            registartionJobs.push(platform.registerFactory(
+                                    "http://" + host + ":8201/?transformerBase=http://" + host + ":8300", "Pipeline UI", "Allows to create pipeline transformers."));
+                            registartionJobs.push(platform.registerFactory(
+                                    "http://" + host + ":8202/?transformerBase=http://" + host + ":8301", "Dictionary Matcher UI", "Allows to create dictionary matcher transformers."));
+                            registartionJobs.push(platform.registerFactory(
+                                    "http://" + host + ":8203/?transformerBase=http://" + host + ":8310", "Batchrefine UI", "Allows to create transformers using Openrefine configurations."));
+                            registartionJobs.push(platform.registerFactory(
+                                    "http://" + host + ":8204/?transformerBase=http://" + host + ":8307", "XSLT Transformer UI", "Allows to create XSLT transformers."));
+                            registartionJobs.push(platform.registerTransformer("http://" + host + ":8303/", "Any23 Transformer", "Transform data using Apache Any23"));
+                            
+                            var stanbolRequest = platform.configureStanbol(
+                                    "http://" + host + ":8304/", platformURI);
+                            registartionJobs.push(stanbolRequest);
+                            Promise.all(registartionJobs).then(function (responses) {
+                                console.info("All configured", responses);
+                                var matchersTtl = $("#matchers").text();
+                                rdf.parseTurtle(matchersTtl, function (matchers) {
+                                    getPlatform(platformURI, function (data) {
+                                                                console.log(data.toString());
+                                                                        var rendered = new RDF2h(matchers).render(data, rdf.createNamedNode(platformURI));
+                                                                        $("#platform").html(rendered);
+                                                                        LD2h.store = store;
+                                                                        LD2h.expand();
+                                                                });
+                                                        }, window.location.toString());
+                                                        $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI=" + platformURI);
+                                                        $(".host").each(
+                                                        function () {
+                                                        $(this).text(host)
+                                                        });
+                                                        $("a").each(
+                                                        function () {
+                                                        var origHref = $(this).attr("href");
+                                                                var newHref = origHref.replace("{host}", host);
+                                                                $(this).attr("href", newHref);
+                                                        });
+                                                        $("#wait").hide();
+                                                        $("#content").css('visibility', 'visible');
+                                                },
+                                                function(error) {
+                                                   console.log("sth wrong: ", error);
+                                                });
 
 
-                var matchersTtl = $("#matchers").text();
-                rdf.parseTurtle(matchersTtl, function (matchers) {
-                    getPlatform(
-                            platformURI,
-                            function (data) {
-                                console.log(data.toString());
-                                var rendered = new RDF2h(matchers).render(data, rdf.createNamedNode(platformURI));
-                                $("#platform").html(rendered);
-                                LD2h.store = store;
-                                LD2h.expand();
-                            });
-                }, window.location.toString());
-
-                $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI=" + platformURI);
-                $(".host").each(
-                        function () {
-                            $(this).text(host)
+                            
+                        },
+                        function (error) {
+                            console.log("Reloading in 2s as P3Check failed");
+                            var reload = function () {
+                                location.reload()
+                            }
+                            setTimeout(reload, 2000);
+                            return;
                         });
-                $("a").each(
-                        function () {
-                            var origHref = $(this).attr("href");
-                            var newHref = origHref.replace("{host}", host);
-                            $(this).attr("href", newHref);
-                        });
-                $("#wait").hide();
-                $("#content").css('visibility', 'visible');
+
+
             });
         </script>
 
@@ -171,7 +184,7 @@ Supported Output Formats:<br/>
                 ].
             
         </script>
-
+        
         <script id="platform-template" type="text/x-mustache-template">
             Title: {{dcterms:title}}<br/>
             URI: {{.}}<br/>
