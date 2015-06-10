@@ -33,3 +33,6 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar 
 # TODO: p3-osm-transformer, punditTransformer, p3-bing-translate-transformer 
 
 docker run -p 8310:8310 fusepool/p3-batchrefine
+
+docker run -p 8386:80 danilogiacomi/pundit
+
