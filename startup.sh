@@ -30,8 +30,12 @@ su p3 -s /usr/bin/java -- -Xmx2g -jar /usr/local/lib/p3-literal-extraction-trans
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-silkdedup.jar &                                # Port 8306
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar &                         # port 8307
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar -P 8308 &
-# TODO: p3-osm-transformer, punditTransformer, p3-bing-translate-transformer 
+# TODO: p3-osm-transformer, p3-bing-translate-transformer 
 
+# starts up Elasticsearch - Logstash - Kibana
+cd /opt/ELK
+docker-compose up -d
+cd -
 
 docker run -d -p 8386:80  danilogiacomi/pundit
 docker run -p 8310:8310 fusepool/p3-batchrefine

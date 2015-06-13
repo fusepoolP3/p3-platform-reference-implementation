@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-EXPOSE 80 8181 8151 8200 8201 8202 8203 8204 8205 8300 8301 8302 8303 8304 8305 8306 8307 8308 8310 8386
+EXPOSE 80 8181 8151 8200 8201 8202 8203 8204 8205 8300 8301 8302 8303 8304 8305 8306 8307 8308 8310 8386 8387
 
 # Upgrade system and install required debs
 RUN apt-get update && \
@@ -50,6 +50,18 @@ RUN cd /var/www/ && \
 RUN adduser --disabled-password --gecos "P3 Platform" --uid 3000 p3
 ENV HOME /home/p3
 WORKDIR /home/p3
+
+ADD ELK/docker-compose.yml /opt/ELK/
+ADD ELK/logstash-ssl/logstash-forwarder.crt /opt/ELK/logstash-forwarder.crt
+ADD ELK/logstash-ssl/logstash-forwarder.key /opt/ELK/logstash-forwarder.key
+ADD ELK/logstash-config/logstash.conf /opt/ELK/logstash-config/logstash.conf
+
+RUN curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose ;\
+    chmod +x /usr/local/bin/docker-compose
+
+
+
+
 
 # Setup & run startup-script
 ADD startup.sh /usr/local/bin/startup.sh
