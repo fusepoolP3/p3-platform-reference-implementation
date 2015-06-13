@@ -62,7 +62,7 @@
                                                         $("a").each(
                                                         function () {
                                                         var origHref = $(this).attr("href");
-                                                                var newHref = origHref.replace("{host}", host);
+                                                                var newHref = origHref.replace(/{host}/g, host);
                                                                 $(this).attr("href", newHref);
                                                         });
                                                         $("#wait").hide();
@@ -209,9 +209,21 @@ Supported Output Formats:<br/>
             <p>Check out the <a class="dashboard-link">Dashboard</a> which allows access
                 to most of the functionality of the P3 Platform.</p>
 
+            <h2>P3 Resource GUI</h2>
 
+            <p>This is a graphical user interface to deal with Linked-Data-Platform-Collections.</p>
+            <a href="http://{host}:8205/?defaultContainer=http://{host}:8181/ldp"><span class="host"></span>:8205/?defaultContainer=<span class="host"></span>:8181/ldp</a>
 
-            <p>You can also directly access the individual components:</p>
+            <h2>P3 Dashboard</h2>
+
+            <p>P3 administrator dashboard is the main user interface for uploading files easily to the platform using transformers. 
+                <a class="dashboard-link"><span class="host"></span>:8200/?platformURI=http://<span class="host"></span>:8181/ldp/platform</a></p>
+
+            
+
+            <p>You can also directly access the individual components. note that 
+                some components need to invoked with some query parameters, check their
+                documentation on github:</p>
 
             <ul class="task-list">
                 <li><a href="http://{host}:8181/ldp/"><span class="host"></span>:8181</a> - Fusepool's <a href="https://github.com/fusepoolP3/p3-ldp-marmotta">Marmotta LDP</a> over <a href="https://github.com/fusepoolP3/p3-proxy">p3-proxy</a>
