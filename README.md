@@ -16,7 +16,9 @@ If instead you want to build it yourself, clone the github repository and run:
 
 To access the Fusepool P3 entry page at the default port 80 start the docker like that
 
-    docker run --privileged -d --name=p3-platform -p 80:80 -p 8181:8181 -p 8151:8151 -p 8200:8200 -p 8201:8201 -p 8202:8202 -p 8203:8203 -p 8204:8204 -p 8205:8205 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8304:8304 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 -p 8310:8310 fusepoolp3/platform-reference-implementat
+
+    docker run --privileged -d --name=p3-platform -p 80:80 -p 8181:8181 -p 8151:8151 -p 8200:8200 -p 8201:8201 -p 8202:8202 -p 8203:8203 -p 8204:8204 -p 8205:8205 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8304:8304 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 -p 8310:8310 -p 8386:8386 fusepoolp3/platform-reference-implementat
+
 
 To stop the container:
 
@@ -63,3 +65,4 @@ can be accessed over the ports exposed by the container. Curently, these are:
 * 8307 - [p3-xslt-transformer](https://github.com/fusepoolP3/p3-xslt-transformer)
 * 8308 - [p3-geocoordinates-transformer](https://github.com/fusepoolP3/p3-geocoordinates-transformer)
 * 8310 - [p3-batchrefine](https://github.com/fusepoolP3/p3-batchrefine)
+* 8386 - [p3-pundit-transformer](https://github.com/fusepoolP3/punditTransformer)
