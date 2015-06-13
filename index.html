@@ -219,9 +219,22 @@ Supported Output Formats:<br/>
             <p>P3 administrator dashboard is the main user interface for uploading files easily to the platform using transformers. 
                 <a class="dashboard-link"><span class="host"></span>:8200/?platformURI=http://<span class="host"></span>:8181/ldp/platform</a></p>
 
+            <h2>Transformer Web Client</h2>
             
+            <p>By default a transformers is used by uploading the data that needs 
+                to be transformed via HTTP POST. The Transformer Web Client allows
+                to transform resources that are already on the Web.</p>
+            <p>The following URI transforms the resource at <code>http://www.bbc.com/news/science-environment-30005268</code>
+                uisng the transformer at 
+                <code>http://<span class="host"></span>:8301/?taxonomy=http%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf</code>:
+                <ul>
+                    <li><a href="http://{host}:8151/?transformer=http%3A%2F%2F{host}%3A8301%2F%3Ftaxonomy%3Dhttp%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf&resource=http://www.bbc.com/news/science-environment-30005268">http://<span class="host"></span>:8151/?transformer=http%3A%2F%2F<span class="host"></span>%3A8301%2F%3Ftaxonomy%3Dhttp%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf&resource=http://www.bbc.com/news/science-environment-30005268</a></li>
+                </ul>
+            </p>
 
-            <p>You can also directly access the individual components. note that 
+            <h2>All components in this Docker</h2>
+            
+            <p>You can directly access the individual components. note that 
                 some components need to invoked with some query parameters, check their
                 documentation on github:</p>
 
