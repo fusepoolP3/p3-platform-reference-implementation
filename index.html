@@ -62,7 +62,7 @@
                                                         $("a").each(
                                                         function () {
                                                         var origHref = $(this).attr("href");
-                                                                var newHref = origHref.replace("{host}", host);
+                                                                var newHref = origHref.replace(/{host}/g, host);
                                                                 $(this).attr("href", newHref);
                                                         });
                                                         $("#wait").hide();
@@ -209,9 +209,34 @@ Supported Output Formats:<br/>
             <p>Check out the <a class="dashboard-link">Dashboard</a> which allows access
                 to most of the functionality of the P3 Platform.</p>
 
+            <h2>P3 Resource GUI</h2>
 
+            <p>This is a graphical user interface to deal with Linked-Data-Platform-Collections.</p>
+            <a href="http://{host}:8205/?defaultContainer=http://{host}:8181/ldp"><span class="host"></span>:8205/?defaultContainer=<span class="host"></span>:8181/ldp</a>
 
-            <p>You can also directly access the individual components:</p>
+            <h2>P3 Dashboard</h2>
+
+            <p>P3 administrator dashboard is the main user interface for uploading files easily to the platform using transformers. 
+                <a class="dashboard-link"><span class="host"></span>:8200/?platformURI=http://<span class="host"></span>:8181/ldp/platform</a></p>
+
+            <h2>Transformer Web Client</h2>
+            
+            <p>By default a transformers is used by uploading the data that needs 
+                to be transformed via HTTP POST. The Transformer Web Client allows
+                to transform resources that are already on the Web.</p>
+            <p>The following URI transforms the resource at <code>http://www.bbc.com/news/science-environment-30005268</code>
+                uisng the transformer at 
+                <code>http://<span class="host"></span>:8301/?taxonomy=http%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf</code>:
+                <ul>
+                    <li><a href="http://{host}:8151/?transformer=http%3A%2F%2F{host}%3A8301%2F%3Ftaxonomy%3Dhttp%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf&resource=http://www.bbc.com/news/science-environment-30005268">http://<span class="host"></span>:8151/?transformer=http%3A%2F%2F<span class="host"></span>%3A8301%2F%3Ftaxonomy%3Dhttp%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf&resource=http://www.bbc.com/news/science-environment-30005268</a></li>
+                </ul>
+            </p>
+
+            <h2>All components in this Docker</h2>
+            
+            <p>You can directly access the individual components. note that 
+                some components need to invoked with some query parameters, check their
+                documentation on github:</p>
 
             <ul class="task-list">
                 <li><a href="http://{host}:8181/ldp/"><span class="host"></span>:8181</a> - Fusepool's <a href="https://github.com/fusepoolP3/p3-ldp-marmotta">Marmotta LDP</a> over <a href="https://github.com/fusepoolP3/p3-proxy">p3-proxy</a>

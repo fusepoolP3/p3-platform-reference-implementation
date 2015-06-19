@@ -14,8 +14,14 @@ httpry -d -i eth0 'tcp port 80 or 8181 or 8151 or 8200 or 8201 or 8202 or 8203 o
 
 # LDP
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-ldp-marmotta.jar &                             # Port 8080
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-proxy.jar &                                    # Port 8181
+if [ -z "$LDPURI" ]; then
+    echo ldp uri is set
+    export LDPURI=http://localhost:8080/
+fi
 
+echo LDPURI: $LDPURI
+
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-proxy.jar -T $LDPURI &                                    # Port 8181
 # Others
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-transformer-web-client.jar &                   # Port 8151
 

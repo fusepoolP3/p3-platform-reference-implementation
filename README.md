@@ -1,8 +1,16 @@
 # Fusepool P3 Platform Reference Implementation Docker Image
 
+## Getting
+
+To get the latest version from dockerhub:
+
+    docker pull fusepoolp3/platform-reference-implementat
+
 ## Building
 
-    docker build -t fusepoolp3/platform-reference-implementation .
+If instead you want to build it yourself, clone the github repository and run:
+
+    docker build -t fusepoolp3/platform-reference-implementat .
 
 ## Running
 
