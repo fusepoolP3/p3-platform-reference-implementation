@@ -1,0 +1,15 @@
+elk:
+  image: willdurand/elk
+  ports:
+    - "9200:9200"
+    - "8387:80"
+    - "127.0.0.1:5043:5043"
+  volumes:
+    - /opt/ELK/logstash-ssl:/etc/ssl
+    - /opt/ELK/logstash-config:/etc/logstash
+#  volumes_from:
+#    - dataelk
+#dataelk:
+#  image: busybox
+#  volumes:
+#    - /data
