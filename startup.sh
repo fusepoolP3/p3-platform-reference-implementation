@@ -7,7 +7,7 @@
 
 # start log service and start httpry to log requests on all the port we use
 /etc/init.d/rsyslog start
-httpry -d -i eth0 'tcp port 80 or 8181 or 8151 or 8200 or 8201 or 8202 or 8203 or 8204 or 8205 or 8300 or 8301 or 8302 or 8303 or 8304 or 8305 or 8306 or 8307 or 8308 or 8310 or 8386 or 8387' -o /var/log/httpry.log 
+httpry -f request-uri -d -i eth0 'tcp port 80 or 8181 or 8151 or 8200 or 8201 or 8202 or 8203 or 8204 or 8205 or 8300 or 8301 or 8302 or 8303 or 8304 or 8305 or 8306 or 8307 or 8308 or 8310 or 8386 or 8387' -o /var/log/httpry.log 
 
 
 #iptables -A INPUT  -j LOG  --log-level debug --log-prefix '[p3-platform] '
