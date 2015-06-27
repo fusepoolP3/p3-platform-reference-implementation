@@ -63,7 +63,8 @@ ADD ELK/logstash-forwarder.conf /etc/
 ADD ELK/docker-compose.yml /opt/ELK/
 ADD ELK/logstash-ssl/logstash-forwarder.crt /opt/ELK/logstash-ssl/logstash-forwarder.crt
 ADD ELK/logstash-ssl/logstash-forwarder.key /opt/ELK/logstash-ssl/logstash-forwarder.key
-ADD ELK/logstash-config/logstash.conf /opt/ELK/logstash-config/logstash.conf
+ADD ELK/logstash-config/logstash.conf /opt/ELK/logstash-config/01_logstash.conf
+ADD ELK/logstash-config/patterns/httpry.pattern /opt/ELK/logstash-config/patterns/httpry.pattern
 
 RUN curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose ;\
     chmod +x /usr/local/bin/docker-compose

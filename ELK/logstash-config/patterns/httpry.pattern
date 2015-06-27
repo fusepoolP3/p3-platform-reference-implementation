@@ -1,0 +1,1 @@
+HTTPRY %{IP:client}\t%{GREEDYDATA:request}
