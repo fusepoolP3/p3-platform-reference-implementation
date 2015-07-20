@@ -53,8 +53,11 @@ cd -
 # start logstash forwarder to send httpry logs to the ELK stack just started
 /etc/init.d/logstash-forwarder start
 
+# start log.io server and forwarder
+(log.io-server &) && (log.io-harvester 2> /dev/null &)
+
 docker run -d -p 8386:80 -e IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` danilogiacomi/pundit
-docker run -p 8310:8310 fusepool/p3-batchrefine
+docker run -p 8310:8310 -v /var/log/:/home/user/log/ fusepool/p3-batchrefine
 
 
 

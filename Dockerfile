@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-EXPOSE 80 8181 8151 8200 8201 8202 8203 8204 8205 8300 8301 8302 8303 8304 8305 8306 8307 8308 8310 8386 8387
+EXPOSE 80 8181 8151 8200 8201 8202 8203 8204 8205 8300 8301 8302 8303 8304 8305 8306 8307 8308 8310 8386 8387 8388
 
 # Upgrade system and install required debs
 
@@ -11,7 +11,7 @@ RUN apt-get update && \
     echo 'deb http://packages.elasticsearch.org/logstashforwarder/debian stable main' > /etc/apt/sources.list.d/logstashforwarder.list && \
     curl http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add - && \
     apt-get update && \
-    apt-get install -y  logstash-forwarder && \
+    apt-get install -y logstash-forwarder nodejs-legacy npm && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
@@ -72,6 +72,10 @@ RUN curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-com
 
 ADD rsyslog.conf /etc/rsyslog.d/50-default.conf
 
+# Install and configure logio
+RUN npm install -g log.io --user "p3"
+RUN echo "exports.config = {host:'0.0.0.0',port:8388}" > .log.io/web_server.conf
+ADD harvester.conf /home/p3/.log.io/harvester.conf
 
 # Setup & run startup-script
 ADD startup.sh /usr/local/bin/startup.sh
