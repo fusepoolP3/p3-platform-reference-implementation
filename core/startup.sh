@@ -2,12 +2,15 @@
 # All ports based on https://github.com/fusepoolP3/overall-architecture/blob/master/default-ports.md
 
 # Webserver for GUIs
+# not sure why this is needed when mounting /var/log from data-container
+mkdir /var/log/lighttpd
+chown www-data:www-data  /var/log/lighttpd
 /etc/init.d/lighttpd start
 /usr/local/bin/wrapdocker
 
 # start log service and start httpry to log requests on all the port we use
 /etc/init.d/rsyslog start
-httpry -f source-ip,request-uri -d -i eth0 'tcp port 8080 or 8181 or 8151 or 8200 or 8201 or 8202 or 8203 or 8204 or 8205 or 8300 or 8301 or 8302 or 8303 or 8304 or 8305 or 8306 or 8307 or 8308 or 8310 or 8386' -o /var/log/httpry.log 
+httpry -f source-ip,request-uri -d -i eth0 'tcp port 8080 or 8181 or 8151 or 8200 or 8201 or 8202 or 8203 or 8204 or 8205 or 8300 or 8301 or 8302 or 8303 or 8304 or 8305 or 8306 or 8307 or 8308 or 8386' -o /var/log/httpry.log 
 
 
 #iptables -A INPUT  -j LOG  --log-level debug --log-prefix '[p3-platform] '
@@ -56,8 +59,8 @@ cd -
 # start log.io server and forwarder
 (log.io-server &) && (log.io-harvester 2> /dev/null &)
 
-docker run -d -p 8386:80 -e IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` danilogiacomi/pundit
-docker run -p 8310:8310 -v /var/log/:/home/user/log/ fusepool/p3-batchrefine
+docker run -p 8386:80 -e IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` danilogiacomi/pundit
+
 
 
 

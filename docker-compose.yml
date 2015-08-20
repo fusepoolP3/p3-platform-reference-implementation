@@ -1,3 +1,7 @@
+logdata:
+  image: busybox
+  volumes:
+   - /var/log
 core:
   image: fusepoolp3/platform-reference-implementat
   ports:
@@ -19,8 +23,15 @@ core:
    - "8306:8306"
    - "8307:8307"
    - "8308:8308"
-   - "8310:8310"
    - "8386:8386"
    - "8387:8387"
    - "8388:8388"
   privileged: true
+  volumes_from:
+   - logdata
+batchrefine:
+  image: fusepool/p3-batchrefine
+  ports:
+   - "8310:8310"
+  volumes_from:
+   - logdata
