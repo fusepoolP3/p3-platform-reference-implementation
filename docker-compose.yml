@@ -35,3 +35,9 @@ batchrefine:
    - "8310:8310"
   volumes_from:
    - logdata
+openrefine:
+  image: fusepool/openrefine
+  ports:
+    - "8333:3333"
+  volumes_from:
+   - logdata
