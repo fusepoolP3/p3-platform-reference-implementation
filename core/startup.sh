@@ -49,9 +49,9 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar 
 # TODO: p3-osm-transformer, p3-bing-translate-transformer 
 
 # starts up Elasticsearch - Logstash - Kibana
-cd /opt/ELK
-docker-compose up -d
-cd -
+#cd /opt/ELK
+#docker-compose up -d
+#cd -
 
 # start logstash forwarder to send httpry logs to the ELK stack just started
 /etc/init.d/logstash-forwarder start
@@ -59,7 +59,9 @@ cd -
 # start log.io server and forwarder
 (log.io-server &) && (log.io-harvester 2> /dev/null &)
 
-docker run -p 8386:80 -e IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` danilogiacomi/pundit
+echo "PRESS CTRL-C to teminate"
+sleep infinity
+# docker run -p 8386:80 -e IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` danilogiacomi/pundit
 
 
 

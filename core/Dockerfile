@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM java:8
 
 EXPOSE 80 8181 8151 8200 8201 8202 8203 8204 8205 8300 8301 8302 8303 8304 8305 8306 8307 8308 8386 8387 8388
 
@@ -7,7 +7,7 @@ EXPOSE 80 8181 8151 8200 8201 8202 8203 8204 8205 8300 8301 8302 8303 8304 8305 
 
 
 RUN apt-get update && \
-    apt-get install -y apt-transport-https ca-certificates curl lxc openjdk-7-jre-headless lighttpd git  httpry && \
+    apt-get install -y apt-transport-https ca-certificates curl lxc lighttpd git  httpry && \
     echo 'deb http://packages.elasticsearch.org/logstashforwarder/debian stable main' > /etc/apt/sources.list.d/logstashforwarder.list && \
     curl http://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add - && \
     apt-get update && \
@@ -18,10 +18,10 @@ RUN apt-get update && \
 
 
 # Prepare docker-in-docker
-RUN curl -sSL https://get.docker.com/ubuntu/ | sh
-RUN curl https://raw.githubusercontent.com/jpetazzo/dind/master/wrapdocker -o /usr/local/bin/wrapdocker
-RUN chmod +x /usr/local/bin/wrapdocker
-VOLUME /var/lib/docker
+#RUN curl -sSL https://get.docker.com/ubuntu/ | sh
+#RUN curl https://raw.githubusercontent.com/jpetazzo/dind/master/wrapdocker -o /usr/local/bin/wrapdocker
+#RUN chmod +x /usr/local/bin/wrapdocker
+#VOLUME /var/lib/docker
 
 # Fetch all self-containing P3-jars
 RUN cd /usr/local/lib/ && \
@@ -45,14 +45,14 @@ RUN cd /usr/local/lib/ && \
     curl -Ls $(curl -s https://api.github.com/repos/fusepoolP3/p3-stanbol-launcher/releases | grep browser_download_url | head -n 1 | cut -d '"' -f 4) > p3-stanbol-launcher.jar
 
 # Setup webserver and add HTML-only GUIs
-ADD index.html /var/www/index.html
-RUN cd /var/www/ && \
+ADD index.html /var/www/html/index.html
+RUN cd /var/www/html/ && \
     mkdir js && cd js && \
     git clone https://github.com/fusepoolP3/p3-autoconfiguration-tool.git autoconfig && \
     git clone https://github.com/rdf2h/rdf2h.git && \
     git clone https://github.com/rdf2h/ld2h.git && \
-    rm -rf /var/www/*/.git && \
-    chmod 644 /var/www/index.html
+    rm -rf /var/www/html/*/.git && \
+    chmod 644 /var/www/html/index.html
 
 # Setup user & environment
 RUN adduser --disabled-password --gecos "P3 Platform" --uid 3000 p3
