@@ -1,0 +1,5 @@
+sudo: required
+services:
+  - docker
+before_install:
+- cd corr && docker build -t fusepoolp3/platform-reference-implementat .
