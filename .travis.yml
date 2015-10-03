@@ -1,0 +1,5 @@
+sudo: required
+services:
+  - docker
+script:
+- cd core && docker build -t fusepoolp3/platform-reference-implementat .
