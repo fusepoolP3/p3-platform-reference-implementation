@@ -1,5 +1,5 @@
 sudo: required
 services:
   - docker
-before_install:
+script:
 - cd core && docker build -t fusepoolp3/platform-reference-implementat .
