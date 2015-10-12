@@ -4,6 +4,8 @@
 # Webserver for GUIs
 # not sure why this is needed when mounting /var/log from data-container
 mkdir /var/log/lighttpd
+mkdir /var/log/logstash-forwarder
+
 chown www-data:www-data  /var/log/lighttpd
 /etc/init.d/lighttpd start
 /usr/local/bin/wrapdocker

@@ -23,11 +23,16 @@ core:
    - "8306:8306"
    - "8307:8307"
    - "8308:8308"
-   - "8386:8386"
-   - "8387:8387"
    - "8388:8388"
+#   - "127.0.0.1:5043:5043"
+  privileged: true
+  volumes:
+    - ./core/ELK/logstash-config/patterns:/etc/logstash-config/patterns/
+    - ./core/ELK/logstash-ssl:/etc/ssl/
   volumes_from:
-   - logdata
+    - logdata
+  links:
+   - elk
 batchrefine:
   image: fusepool/p3-batchrefine
   ports:
@@ -40,3 +45,25 @@ openrefine:
     - "8389:3333"
   volumes_from:
    - logdata
+
+elk:
+  image: willdurand/elk
+  ports:
+    - "9200:9200"
+    - "8387:80"
+    - "127.0.0.1:5043:5043"
+#    - 5043:5043"
+  volumes:
+    - ./core/ELK/logstash-ssl:/etc/ssl
+    - ./core/ELK/logstash-config:/etc/logstash
+#  links:
+#   - core
+
+
+pundittransformer:
+  image: danilogiacomi/pundit
+  ports:
+   - "8386:80"
+
+#environment:
+#   - IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` 
