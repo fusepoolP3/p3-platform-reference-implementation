@@ -24,11 +24,11 @@ core:
    - "8307:8307"
    - "8308:8308"
    - "8388:8388"
-#   - "127.0.0.1:5043:5043"
   privileged: true
   volumes:
     - ./core/ELK/logstash-config/patterns:/etc/logstash-config/patterns/
     - ./core/ELK/logstash-ssl:/etc/ssl/
+    - ./core/ELK/logstash-forwarder.conf:/etc/logstash-forwarder.conf
   volumes_from:
     - logdata
   links:

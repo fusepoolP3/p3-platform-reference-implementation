@@ -59,29 +59,7 @@ ENV HOME /home/p3
 WORKDIR /home/p3
 
 #ADD ELK/logstash-forwarder.conf /etc/
-#ADD ELK/docker-compose.yml /opt/ELK/
-#ADD ELK/logstash-ssl/logstash-forwarder.crt /opt/ELK/logstash-ssl/logstash-forwarder.crt
-#ADD ELK/logstash-ssl/logstash-forwarder.key /opt/ELK/logstash-ssl/logstash-forwarder.key
-#ADD ELK/logstash-config/logstash.conf /opt/ELK/logstash-config/01_logstash.conf
-#ADD ELK/logstash-config/patterns/httpry.pattern /opt/ELK/logstash-config/patterns/httpry.pattern
 
-
-
-# RUN  wget -O - http://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add - \
-    # echo 'deb http://packages.elasticsearch.org/elasticsearch/1.4/debian stable main' | tee /etc/apt/sources.list.d/elasticsearch.list \
-    # apt-get update \
-    # apt-get -y install elasticsearch=1.4.4 \
-    # service elasticsearch restart \
-    # update-rc.d elasticsearch defaults 95 10 \
-    # cd ~; wget https://download.elasticsearch.org/kibana/kibana/kibana-4.0.1-linux-x64.tar.gz \
-    # tar xvf kibana-*.tar.gz \
-    # mkdir -p /opt/kibana \
-    # cp -R ~/kibana-4*/* /opt/kibana/ \
-    # cd /etc/init.d && sudo wget https://gist.githubusercontent.com/thisismitch/8b15ac909aed214ad04a/raw/bce61d85643c2dcdfbc2728c55a41dab444dca20/kibana4 \
-    # chmod +x /etc/init.d/kibana4 \
-    # update-rc.d kibana4 defaults 96 9 \
-    # service kibana4 start \
-    
 
 #RUN curl -L https://github.com/docker/compose/releases/download/1.2.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose ;\
 #    chmod +x /usr/local/bin/docker-compose
