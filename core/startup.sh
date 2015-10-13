@@ -18,7 +18,7 @@ httpry -f source-ip,request-uri -d -i eth0 'tcp port 8080 or 8181 or 8151 or 820
 #iptables -A INPUT  -j LOG  --log-level debug --log-prefix '[p3-platform] '
 
 # LDP
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-ldp-marmotta.jar &                             # Port 8080
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-ldp-marmotta.jar > /var/log/ldp-marmotta.log 2>&1  &       	# Port 8080
 if [ -z "$LDPURI" ]; then
     echo ldp uri is set
     export LDPURI=http://localhost:8080/
@@ -26,12 +26,12 @@ fi
 
 echo LDPURI: $LDPURI
 
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-proxy.jar -T $LDPURI &                                    # Port 8181
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-proxy.jar -T $LDPURI > /var/log/p3-proxy.log 2>&1 &    	    # Port 8181
 # Others
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-transformer-web-client.jar &                   # Port 8151
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-transformer-web-client.jar > /var/log/web-client.log 2>&1 &    # Port 8151
 
 # GUIs
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dashboard.jar &                                # Port 8200
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dashboard.jar  &                               # Port 8200
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-pipeline-gui.jar &                             # Port 8201
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dictionary-matcher-factory-gui.jar &           # Port 8202
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-batchrefine-factory-gui.jar -P 8203 &
@@ -39,15 +39,15 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-factory-gui.jar &         
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-resource-gui.jar &                             # Port 8205
 
 # Transformers
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-pipeline-transformer.jar -C &                  # Port 8300
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dictionary-matcher-transformer.jar &           # Port 8301
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geo-enriching-transformer.jar -P 8302 &
-su p3 -s /usr/bin/java -- -Xmx1g -jar /usr/local/lib/p3-any23-transformer.jar &                 # Port 8303
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-stanbol-launcher.jar -p 8304 &                 # Port 8304
-su p3 -s /usr/bin/java -- -Xmx2g -jar /usr/local/lib/p3-literal-extraction-transformer.jar &    # Port 8305
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-silkdedup.jar &                                # Port 8306
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar &                         # port 8307
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar -P 8308 &
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-pipeline-transformer.jar -C > /var/log/pipeline-transformer.log 2>&1 &              # Port 8300
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dictionary-matcher-transformer.jar > /var/log/dictionary-matcher.log 2>&1 &         # Port 8301
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geo-enriching-transformer.jar -P 8302  > /var/log/geo-enriching.log 2>&1  & 
+su p3 -s /usr/bin/java -- -Xmx1g -jar /usr/local/lib/p3-any23-transformer.jar > /var/log/any23-transformer.log 2>&1 &                # Port 8303
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-stanbol-launcher.jar -p 8304 > /var/log/stanbol-launcher.log 2>&1 &                 # Port 8304
+su p3 -s /usr/bin/java -- -Xmx2g -jar /usr/local/lib/p3-literal-extraction-transformer.jar > /var/log/literal-extraction.log 2>&1 &  # Port 8305
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-silkdedup.jar > /var/log/silkdedup.log 2>&1 &                                       # Port 8306
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar > /var/log/xslt-transformer.log 2>&1 &                         # port 8307
+su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar -P 8308 > /var/log/geocoordinates-transformer.log 2>&1 &
 # TODO: p3-osm-transformer, p3-bing-translate-transformer 
 
 # starts up Elasticsearch - Logstash - Kibana
@@ -64,10 +64,3 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geocoordinates-transformer.jar 
 echo "PRESS CTRL-C to teminate"
 sleep infinity
 # docker run -p 8386:80 -e IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` danilogiacomi/pundit
-
-
-
-
-
-
-
