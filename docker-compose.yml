@@ -2,6 +2,7 @@ logdata:
   image: busybox
   volumes:
    - /var/log
+  restart: always
 core:
   image: fusepoolp3/platform-reference-implementat
   ports:
@@ -32,19 +33,21 @@ core:
     - logdata
   links:
    - elk
+  restart: always
 batchrefine:
   image: fusepool/p3-batchrefine
   ports:
    - "8310:8310"
   volumes_from:
    - logdata
+  restart: always
 openrefine:
   image: fusepool/openrefine
   ports:
     - "8389:3333"
   volumes_from:
    - logdata
-
+  restart: always
 elk:
   image: willdurand/elk
   ports:
@@ -57,12 +60,14 @@ elk:
     - ./core/ELK/logstash-config:/etc/logstash
 #  links:
 #   - core
+  restart: always
 
 
 pundittransformer:
   image: danilogiacomi/pundit
   ports:
    - "8386:80"
+  restart: always
 
 #environment:
 #   - IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` 
