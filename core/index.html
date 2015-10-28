@@ -7,6 +7,7 @@
         <script src="/js/autoconfig/p3-check.js"></script>
         <script src="/js/rdf2h/dist/rdf2h.js"></script>
         <script src="/js/ld2h/js/ld2h.js"></script>
+	<script src="/js/ldp_config.js"></script>
         <script>
             $(function () {
 
@@ -25,8 +26,9 @@
                 };
 
                 var host = window.location.hostname;
-                var platformURI = "http://" + host + ":8181/ldp/platform";
-                P3Check.initP3Platform(platformURI, "http://" + host + ":8181/sparql/select").then(
+                var platformURI = "http://" + host + ":8181" + LDPServerPaths.platformLDPRoot + "platform";
+                var platformLDPRootURI = "http://" + host + ":8181" + LDPServerPaths.platformLDPRoot;
+                P3Check.initP3Platform(platformURI, "http://" + host + ":8181" + LDPServerPaths.sparqlEndpoint).then(
                         function (platform) {
                             var registartionJobs = [];
                             registartionJobs.push(platform.registerFactory(
@@ -55,10 +57,13 @@
                                                                 });
                                                         }, window.location.toString());
                                                         $(".dashboard-link").attr("href", "http://" + host + ":8200/?platformURI=" + platformURI);
+                                                        $(".resource-gui-link").attr("href", "http://" + host + ":8205/?defaultContainer=" + platformLDPRootURI);
                                                         $(".host").each(
                                                         function () {
                                                         $(this).text(host)
                                                         });
+                                                        $(".platformURI").each(function () { $(this).text(platformURI) });
+                                                        $(".platformLDPRootURI").each(function () { $(this).text(platformLDPRootURI) });
                                                         $("a").each(
                                                         function () {
                                                         var origHref = $(this).attr("href");
@@ -212,12 +217,12 @@ Supported Output Formats:<br/>
             <h2>P3 Resource GUI</h2>
 
             <p>This is a graphical user interface to deal with Linked-Data-Platform-Collections.</p>
-            <a href="http://{host}:8205/?defaultContainer=http://{host}:8181/ldp"><span class="host"></span>:8205/?defaultContainer=<span class="host"></span>:8181/ldp</a>
+            <a class="resource-gui-link"><span class="host"></span>:8205/?defaultContainer=<span class="platformLDPRootURI"></span></a>
 
             <h2>P3 Dashboard</h2>
 
             <p>P3 administrator dashboard is the main user interface for uploading files easily to the platform using transformers. 
-                <a class="dashboard-link"><span class="host"></span>:8200/?platformURI=http://<span class="host"></span>:8181/ldp/platform</a></p>
+                <a class="dashboard-link"><span class="host"></span>:8200/?platformURI=<span class="platformURI"></span></a></p>
 
             <h2>Transformer Web Client</h2>
             

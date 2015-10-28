@@ -14,9 +14,19 @@ If instead you want to build it yourself, clone the github repository and run:
 
 ## Running
 
+### Using Marmotta LDP
+
 To access the Fusepool P3 entry page at the default port 80 start the docker like that
 
     docker run --privileged -d --name=p3-platform -p 80:80 -p 8181:8181 -p 8151:8151 -p 8200:8200 -p 8201:8201 -p 8202:8202 -p 8203:8203 -p 8204:8204 -p 8205:8205 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8304:8304 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 -p 8310:8310 -p 8386:8386 -p 8387:8387 -p 8388:8388 fusepoolp3/platform-reference-implementat
+    
+### Using VOS LDP
+
+The P3 platform uses Marmotta as the default LDP server. VOS (Virtuoso Open Source) provides an alternative LDP service. To use VOS as the LDP backend, start the platform using:
+
+    docker run --privileged -d --name=p3-platform --link vos:vos --env LDPURI=http://vos:8890/ --env LDP_HOST=vos -p 80:80 --add-host {container-host-name}:{container-host-ip-address} -p 8181:8181 -p 8151:8151 -p 8200:8200 -p 8201:8201 -p 8202:8202 -p 8203:8203 -p 8204:8204 -p 8205:8205 -p 8300:8300 -p 8301:8301 -p 8302:8302 -p 8303:8303 -p 8304:8304 -p 8305:8305 -p 8306:8306 -p 8307:8307 -p 8308:8308 -p 8310:8310 -p 8386:8386 -p 8387:8387 -p 8388:8388  fusepoolp3/platform-reference-implementat
+
+In this example, `vos` identifies a container hosting a VOS database instance, running on port 8890 (see [virtuoso-docker](https://github.com/fusepoolP3/virtuoso-docker) for details of  running VOS in Docker). When omitted, the environment variables `LDP_HOST` and `LDP_URI` default to `marmotta` and `http://localhost:8080/`. [ldp_config_vos.js](https://github.com/fusepoolP3/p3-platform-reference-implementation/blob/master/core/ldp_config_vos.js) and [ldp_config_marmotta.js](https://github.com/fusepoolP3/p3-platform-reference-implementation/blob/master/core/ldp_config_marmotta.js) specify the platform LDP root container and sparql endpoint paths. In the case of VOS, the LDP root container must be preconfigured in the database instance.
 
 To stop the container:
 
@@ -46,7 +56,7 @@ locally using /localhost/ is just fine.
 The different components of Fusepool P3 
 can be accessed over the ports exposed by the container. Curently, these are:
 
-* 8181 - Fusepool's Marmotta LDP over [p3-proxy](https://github.com/fusepoolP3/p3-proxy)
+* 8181 - Fusepool's LDP over [p3-proxy](https://github.com/fusepoolP3/p3-proxy)
 * 8151 - [p3-transformer-web-client](https://github.com/fusepoolP3/p3-transformer-web-client)
 * 8200 - [p3-dashboard](https://github.com/fusepoolP3/p3-dashboard)
 * 8201 - [p3-pipeline-gui-js](https://github.com/fusepoolP3/p3-pipeline-gui-js)

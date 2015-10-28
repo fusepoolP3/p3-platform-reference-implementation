@@ -17,10 +17,24 @@ httpry -f source-ip,request-uri -d -i eth0 'tcp port 8080 or 8181 or 8151 or 820
 
 #iptables -A INPUT  -j LOG  --log-level debug --log-prefix '[p3-platform] '
 
-# LDP
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-ldp-marmotta.jar > /var/log/ldp-marmotta.log 2>&1  &       	# Port 8080
+case ${LDP_HOST:=marmotta} in
+  marmotta)
+    echo "Using Marmotta LDP server"
+    ;;
+  vos)  
+    echo "Using VOS LDP server"
+    ;;
+  *) echo "Unknown LDP_HOST"; exit 1;;
+esac
+
+cp ./ldp_config_${LDP_HOST}.js /var/www/html/js/ldp_config.js
+
+# LDP:
+# Use Marmotta as the default LDP.
+# To use Virtuoso as the LDP server, start the container using: 
+# docker run --link vos:vos --env LDPURI=http://vos:8890/ --env LDP_HOST=vos ...
 if [ -z "$LDPURI" ]; then
-    echo ldp uri is set
+    su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-ldp-marmotta.jar > /var/log/ldp-marmotta.log 2>&1  &       	# Port 8080
     export LDPURI=http://localhost:8080/
 fi
 
