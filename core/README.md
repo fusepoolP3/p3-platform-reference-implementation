@@ -37,7 +37,7 @@ Attention: this docker container uses [docker-in-docker](https://github.com/jpet
 
 When the container has finished starting, you can access the Fusepool P3 
 platform directly on the host running the container. With a web browser 
-access http://%lt;yourhost>/. Important: The P3 Platform will autoconfigure itself 
+access http://\<yourhost>/. Important: The P3 Platform will autoconfigure itself 
 with the hostname that it used to first access it, so if you intend the platform
 to be accessible on http://example.com/ the first access must done using this URI
 and *not* with http://localhost/, of course if you just want to try things out 
