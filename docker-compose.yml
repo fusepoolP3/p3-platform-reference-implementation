@@ -2,10 +2,17 @@ logdata:
   image: busybox
   volumes:
    - /var/log
+   
+entry:
+  image: fusepoolp3/entry-resource
+  ports:
+   - "80:8080"
+  volumes:
+    - marmotta-backend-config.js:/etc/fusepool-p3/backend-config.js
+   
 core:
   image: fusepoolp3/platform-reference-implementat
   ports:
-   - "80:80"
    - "8181:8181"
    - "8151:8151"
    - "8200:8200"
