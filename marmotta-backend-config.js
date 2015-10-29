@@ -81,13 +81,15 @@ P3BackendConfigurator.prototype.unconditionedInitialize = function(platformEntry
 				"P3 Resource GUI",
 				"This is a graphical user interface to deal with Linked-Data-Platform-Collections."));
 		
-		/* Add later: registrations.push(platformEntryConfigurator.registerApplication("http://"+host+":8151/?transformer=http%3A%2F%2F"+host+"%3A8301%2F%3Ftaxonomy%3Dhttp%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf&resource=http://www.bbc.com/news/science-environment-30005268", 
+		registrations.push(platformEntryConfigurator.registerApplication("http://"+host+":8151/?transformer=http%3A%2F%2F"+host+"%3A8301%2F%3Ftaxonomy%3Dhttp%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf&resource=http://www.bbc.com/news/science-environment-30005268", 
 				"Transformer web client",
-				"With the provided parameter it transforms the resource at <code>http://www.bbc.com/news/science-environment-30005268</code> using the transformer at <code>http://<span class="host"></span>:8301/?taxonomy=http%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf</code>"));*/
+				"With the provided parameter it transforms the resource at <code>http://www.bbc.com/news/science-environment-30005268</code> using the transformer at <code>http://"+host+":8301/?taxonomy=http%3A%2F%2Fdata.nytimes.com%2Fdescriptors.rdf</code>"));
+
 	
 		var platformPreparation = Promise.all(registrations);
 		return platformPreparation.then(function() {
 			return P3Platform.getPlatform(window.location).then(function(platform) {
+                platformEntryConfigurator.lock();
 				platform.transformerRegistry.registerTransformer("http://"+host+":8303/", "Any23 Transformer", "Transform data using Apache Any23");
 				platform.transformerFactoryRegistry.registerTransformerFactory(
                         "http://"+host+":8201/?transformerBase=http://"+host+":8300&platformURI="+window.location, "Pipeline UI", "Allows to create pipeline transformers.");
