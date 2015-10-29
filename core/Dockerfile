@@ -58,6 +58,9 @@ RUN adduser --disabled-password --gecos "P3 Platform" --uid 3000 p3
 ENV HOME /home/p3
 WORKDIR /home/p3
 
+ADD ldp_config_vos.js ldp_config_vos.js
+ADD ldp_config_marmotta.js ldp_config_marmotta.js
+
 #ADD ELK/logstash-forwarder.conf /etc/
 
 
