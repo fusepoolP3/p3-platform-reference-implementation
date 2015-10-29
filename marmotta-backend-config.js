@@ -89,7 +89,7 @@ P3BackendConfigurator.prototype.unconditionedInitialize = function(platformEntry
 		var platformPreparation = Promise.all(registrations);
 		return platformPreparation.then(function() {
 			return P3Platform.getPlatform(window.location).then(function(platform) {
-                platformEntryConfigurator.lock();
+				platformEntryConfigurator.lock();
 				platform.transformerRegistry.registerTransformer("http://"+host+":8303/", "Any23 Transformer", "Transform data using Apache Any23");
 				platform.transformerFactoryRegistry.registerTransformerFactory(
                         "http://"+host+":8201/?transformerBase=http://"+host+":8300&platformURI="+window.location, "Pipeline UI", "Allows to create pipeline transformers.");
