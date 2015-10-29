@@ -3,12 +3,8 @@
 
 # Webserver for GUIs
 # not sure why this is needed when mounting /var/log from data-container
-mkdir /var/log/lighttpd
 mkdir /var/log/logstash-forwarder
 
-chown www-data:www-data  /var/log/lighttpd
-/etc/init.d/lighttpd start
-/usr/local/bin/wrapdocker
 
 # start log service and start httpry to log requests on all the port we use
 /etc/init.d/rsyslog start
