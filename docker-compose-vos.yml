@@ -1,0 +1,22 @@
+#
+# Runs the Fusepool P3 platform using VOS as the LDP server
+# Requires docker-compose >= 1.5.0rc2
+#
+vos:
+  image: openlink/virtuoso_opensource:vos
+  ports:
+    - "1111:1111"
+    - "8890:8890"
+  volumes:
+    - /opt/virtuoso-opensource/var/lib/virtuoso/db:/opt/virtuoso-opensource/var/lib/virtuoso/db
+
+p3_platform_vos:
+  extends:
+    file: docker-compose.yml
+    service: core
+  links:
+    - vos
+  environment:
+    - LDPURI=http://vos:8890/
+    - LDP_HOST=vos
+
