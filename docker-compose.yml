@@ -10,6 +10,9 @@ entry:
   volumes:
     - marmotta-backend-config.js:/etc/fusepool-p3/backend-config.js
    
+marmotta:
+  image: fusepoolp3/ldp-marmotta
+   
 core:
   image: fusepoolp3/platform-reference-implementat
   ports:
@@ -39,6 +42,10 @@ core:
     - logdata
   links:
    - elk
+   - marmotta:ldp
+  environment:
+   - LDPURI=http://ldp:8080/
+   
 batchrefine:
   image: fusepool/p3-batchrefine
   ports:
