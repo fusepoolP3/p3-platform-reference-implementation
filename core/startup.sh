@@ -13,8 +13,6 @@ httpry -f source-ip,request-uri -d -i eth0 'tcp port 8080 or 8181 or 8151 or 820
 
 #iptables -A INPUT  -j LOG  --log-level debug --log-prefix '[p3-platform] '
 
-# LDP
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-ldp-marmotta.jar > /var/log/ldp-marmotta.log 2>&1  &       	# Port 8080
 if [ -z "$LDPURI" ]; then
     echo ldp uri is set
     export LDPURI=http://localhost:8080/
