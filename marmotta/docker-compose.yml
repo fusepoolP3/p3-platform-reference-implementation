@@ -1,0 +1,48 @@
+logdata:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: logdata
+   
+entry:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: entry
+  volumes:
+    - marmotta-backend-config.js:/etc/fusepool-p3/backend-config.js
+   
+marmotta:
+  image: fusepoolp3/ldp-marmotta
+   
+core:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: core
+  links:
+   - elk
+   - marmotta:ldp
+  volumes_from:
+    - logdata
+   
+batchrefine:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: batchrefine
+  volumes_from:
+    - logdata
+    
+openrefine:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: openrefine
+  volumes_from:
+    - logdata
+    
+elk:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: elk
+
+pundittransformer:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: pundittransformer

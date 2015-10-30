@@ -7,7 +7,11 @@ this project requires `docker compose`. See the installation instructions here: 
 
 ## Running the docker compose
 
-From the directory where you found this README file:
+Change into the directory corresponsing to the backend you woul like to use, e.g:
+
+    cd marmotta
+
+From there run:
 
     docker-compose up
 
@@ -27,7 +31,7 @@ locally using /localhost/ is just fine.
 The different components of Fusepool P3 
 can be accessed over the ports exposed by the container. Curently, these are:
 
-* 8181 - Fusepool's Marmotta LDP over [p3-proxy](https://github.com/fusepoolP3/p3-proxy)
+* 8181 - Fusepool's LDP over [p3-proxy](https://github.com/fusepoolP3/p3-proxy)
 * 8151 - [p3-transformer-web-client](https://github.com/fusepoolP3/p3-transformer-web-client)
 * 8200 - [p3-dashboard](https://github.com/fusepoolP3/p3-dashboard)
 * 8201 - [p3-pipeline-gui-js](https://github.com/fusepoolP3/p3-pipeline-gui-js)
