@@ -8,7 +8,7 @@ entry:
     file: ../docker-compose-commons.yml
     service: entry
   volumes:
-    - marmotta-backend-config.js:/etc/fusepool-p3/backend-config.js
+    - boot-scripts:/etc/fusepool-p3/boot-scripts
    
 marmotta:
   image: fusepoolp3/ldp-marmotta
