@@ -65,7 +65,7 @@ elk:
 
 
 pundittransformer:
-  image: danilogiacomi/pundit
+  image: danilogiacomi/pundittransformer
   ports:
    - "8386:80"
 
