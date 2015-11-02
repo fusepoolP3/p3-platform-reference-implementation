@@ -56,12 +56,9 @@ elk:
     - "9200:9200"
     - "8387:80"
     - "127.0.0.1:5043:5043"
-#    - 5043:5043"
   volumes:
     - ./core/ELK/logstash-ssl:/etc/ssl
     - ./core/ELK/logstash-config:/etc/logstash
-#  links:
-#   - core
 
 
 pundittransformer:
