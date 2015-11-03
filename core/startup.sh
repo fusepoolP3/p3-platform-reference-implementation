@@ -37,7 +37,6 @@ su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-pipeline-transformer.jar -C > /
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-dictionary-matcher-transformer.jar > /var/log/dictionary-matcher.log 2>&1 &         # Port 8301
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-geo-enriching-transformer.jar -P 8302  > /var/log/geo-enriching.log 2>&1  & 
 su p3 -s /usr/bin/java -- -Xmx1g -jar /usr/local/lib/p3-any23-transformer.jar > /var/log/any23-transformer.log 2>&1 &                # Port 8303
-su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-stanbol-launcher.jar -p 8304 > /var/log/stanbol-launcher.log 2>&1 &                 # Port 8304
 su p3 -s /usr/bin/java -- -Xmx2g -jar /usr/local/lib/p3-literal-extraction-transformer.jar > /var/log/literal-extraction.log 2>&1 &  # Port 8305
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-silkdedup.jar > /var/log/silkdedup.log 2>&1 &                                       # Port 8306
 su p3 -s /usr/bin/java -- -jar /usr/local/lib/p3-xslt-transformer.jar > /var/log/xslt-transformer.log 2>&1 &                         # port 8307

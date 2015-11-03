@@ -8,7 +8,7 @@ entry:
     file: ../docker-compose-commons.yml
     service: entry
   volumes:
-    - boot-scripts:/etc/fusepool-p3/boot-scripts
+    - ./boot-scripts:/etc/fusepool-p3/boot-scripts
    
 marmotta:
   image: fusepoolp3/ldp-marmotta
@@ -22,6 +22,11 @@ core:
    - marmotta:ldp
   volumes_from:
     - logdata
+    
+stanbol:
+  extends:
+    file: ../docker-compose-commons.yml
+    service: stanbol
    
 batchrefine:
   extends:
