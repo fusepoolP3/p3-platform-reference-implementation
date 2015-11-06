@@ -10,7 +10,7 @@ entry:
    
    
 core:
-  image: fusepoolp3/platform-reference-implementat
+  image: fusepoolp3/various-services
   ports:
    - "8181:8181"
    - "8151:8151"
