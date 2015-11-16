@@ -53,3 +53,5 @@ pundittransformer:
     service: pundittransformer
   links:
     - core
+    - marmotta:ldp
+    - entry
