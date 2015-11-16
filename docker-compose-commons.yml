@@ -69,5 +69,3 @@ pundittransformer:
   ports:
    - "8386:80"
 
-#environment:
-#   - IR_URL=`/sbin/ifconfig eth0 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}'` 
