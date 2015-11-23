@@ -33,8 +33,8 @@
     P3BackendConfigurator.prototype.registerTransfomersAndFactories = function(platform) {
         var stanbolBase = "http://"+this.serviceHost+":8304/";
         return Promise.all([
-                configureStanbol(stanbolBase , platform.getPlatformURI()),
-                origFunction.call(this, platform.toString())
+                configureStanbol(stanbolBase , platform.getPlatformURI().toString()),
+                origFunction.call(this, platform)
         ]);
     };
 })();
