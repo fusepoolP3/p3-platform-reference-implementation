@@ -34,7 +34,7 @@
         var stanbolBase = "http://"+this.serviceHost+":8304/";
         return Promise.all([
                 configureStanbol(stanbolBase , platform.getPlatformURI()),
-                origFunction.call(this, platform)
+                origFunction.call(this, platform.toString())
         ]);
     };
 })();
