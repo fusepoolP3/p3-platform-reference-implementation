@@ -7,7 +7,7 @@
         return new Promise(function (resolve, reject) {
             var attempt = function() {
 
-                var getRequest = $.ajax({type: 'POST',
+                var getRequest = $.ajax({method: 'POST',
                     url: stanbolBase + "fusepool/config/",
                     data: {fusepool: platform},
                     async: true
