@@ -52,4 +52,4 @@ can be accessed over the ports exposed by the container. Curently, these are:
 * 8387 - [Elasticsearch-Logstash-Kibana]
 * 8388 - Real-time log monitoring with [Log.io](https://github.com/NarrativeScience/Log.io)
 
-    
+   
