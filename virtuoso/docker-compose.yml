@@ -8,22 +8,27 @@ entry:
     file: ../docker-compose-commons.yml
     service: entry
   volumes:
-    - ./boot-scripts/02-marmotta-backend.js:/etc/fusepool-p3/boot-scripts/02-marmotta-backend.js
+    - ./boot-scripts/03-virtuoso-backend.js:/etc/fusepool-p3/boot-scripts/03-virtuoso-backend.js
    
-marmotta:
-  image: fusepoolp3/ldp-marmotta
-   
+vos:
+  image: openlink/virtuoso_opensource:vos
+  ports:
+    - "1111:1111"
+    - "8890:8890"
+  volumes:
+    - /opt/virtuoso-opensource/var/lib/virtuoso/db:/opt/virtuoso-opensource/var/lib/virtuoso/db
+
 core:
   extends:
     file: ../docker-compose-commons.yml
     service: core
   links:
-   - elk
-   - marmotta:ldp
+    - elk
+    - vos:ldp
   volumes_from:
-   - logdata
+    - logdata
   environment:
-   - LDPURI=http://ldp:8080/
+    - LDPURI=http://ldp:8890/
     
 stanbol:
   extends:
@@ -55,5 +60,5 @@ pundittransformer:
     service: pundittransformer
   links:
     - core
-    - marmotta:ldp
+    - vos:ldp
     - entry
