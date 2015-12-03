@@ -53,6 +53,8 @@ pundittransformer:
   extends:
     file: ../docker-compose-commons.yml
     service: pundittransformer
+  environment:
+   - LDPURI=http://ldp:8080/
   links:
     - core
     - marmotta:ldp
