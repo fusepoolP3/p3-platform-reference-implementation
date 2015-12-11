@@ -13,7 +13,7 @@ Pull the VOS (Virtuoso Open Source Edition) Docker image from the Docker registr
  
 The image is configured to host the database in the host file system. The database location on the host should reflect the installation directory assumed by the image. 
 
-Create directory /opt/virtuoso-opensource/var/lib/virtuoso/db in the host file system and copy in the provided template configuration file virtuoso/virtuoso.fp3_template.ini.
+Create directory /opt/virtuoso-opensource/var/lib/virtuoso/db in the host file system and copy in the provided template configuration file virtuoso.fp3_template.ini.
 
 * `sudo mkdir -p /opt/virtuoso-opensource/var/lib/virtuoso/db`
 * `sudo cp ./virtuoso.fp3_template.ini /opt/virtuoso-opensource/var/lib/virtuoso/db/virtuoso.ini`
@@ -37,7 +37,7 @@ VOS will create a new database when started for the first time.
 
 A Virtuoso/PL script is needed to create the LDP root directory and enable CORS:
 
-* Edit virtuoso/p3_vos_setup.template.sql, replacing fp3.myhost.com with the correct hostname.
+* Edit p3_vos_setup.template.sql, replacing fp3.myhost.com with the correct hostname.
 * Login to Virtuoso's Conductor UI via http://fp3.myhost.com:8890 (Default username and password: 'dba', 'dba') then paste in and execute the above script in Conductor's isql console.
 
 Shutdown and remove the VOS container:
