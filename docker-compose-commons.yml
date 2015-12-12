@@ -2,6 +2,7 @@ logdata:
   image: busybox
   volumes:
    - /var/log
+  entrypoint: /bin/true
    
 entry:
   image: fusepoolp3/entry-resource
@@ -9,6 +10,7 @@ entry:
    - "80:8080"
   volumes:
    - ./boot-scripts/09-init-stanbol.js:/etc/fusepool-p3/boot-scripts/09-init-stanbol.js
+  restart: unless-stopped
    
    
 core:
@@ -37,22 +39,26 @@ core:
     - ./core/ELK/logstash-config/patterns:/etc/logstash-config/patterns/
     - ./core/ELK/logstash-ssl:/etc/ssl/
     - ./core/ELK/logstash-forwarder.conf:/etc/logstash-forwarder.conf
+  restart: unless-stopped
    
 stanbol:
   image: fusepoolp3/stanbol-launcher
   ports:
     - "8304:8080"
+  restart: unless-stopped
   
    
 batchrefine:
   image: fusepool/p3-batchrefine
   ports:
    - "8310:8310"
+  restart: unless-stopped
 
 openrefine:
   image: fusepool/openrefine
   ports:
     - "8389:3333"
+  restart: unless-stopped
 
 
 elk:
@@ -64,10 +70,12 @@ elk:
   volumes:
     - ./core/ELK/logstash-ssl:/etc/ssl
     - ./core/ELK/logstash-config:/etc/logstash
+  restart: unless-stopped
 
 
 pundittransformer:
   image: danilogiacomi/pundittransformer
   ports:
    - "8386:80"
+  restart: unless-stopped
 

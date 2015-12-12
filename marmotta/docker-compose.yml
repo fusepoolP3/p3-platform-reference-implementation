@@ -12,6 +12,7 @@ entry:
    
 marmotta:
   image: fusepoolp3/ldp-marmotta
+  restart: unless-stopped
    
 core:
   extends:
