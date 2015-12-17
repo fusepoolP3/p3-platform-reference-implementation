@@ -10,6 +10,7 @@ entry:
    - "80:8080"
   volumes:
    - ./boot-scripts/09-init-stanbol.js:/etc/fusepool-p3/boot-scripts/09-init-stanbol.js
+   - ./boot-scripts/10-init-pundit.js:/etc/fusepool-p3/boot-scripts/10-init-pundit.js
   restart: unless-stopped
    
    
