@@ -15,8 +15,7 @@ From there run:
 
     docker-compose up
 
-See the [Compose CLI reference](https://docs.docker.com/compose/reference/) for 
-how to mange the containers started with docker-compose.
+See the [Compose CLI reference](https://docs.docker.com/compose/reference/) for how to mange the containers started with docker-compose.
 
 ## Using
 
@@ -49,7 +48,22 @@ can be accessed over the ports exposed by the container. Curently, these are:
 * 8308 - [p3-geocoordinates-transformer](https://github.com/fusepoolP3/p3-geocoordinates-transformer)
 * 8310 - [p3-batchrefine](https://github.com/fusepoolP3/p3-batchrefine)
 * 8386 - [p3-pundit-transformer](https://github.com/fusepoolP3/punditTransformer)
-* 8387 - [Elasticsearch-Logstash-Kibana]
+* 8387 - [Elasticsearch-Logstash-Kibana](https://www.elastic.co/products/logstash)
 * 8388 - Real-time log monitoring with [Log.io](https://github.com/NarrativeScience/Log.io)
 
-  
+## Using Marmotta with PostgreSQL
+
+By default Apache Marmotta is using an in-memory store. This is fine for testing but it should not be used in production. Instead it is recommended to use the [PostgreSQL backend](http://marmotta.apache.org/configuration.html) from Marmotta.
+
+To enable PostgreSQL uncomment the according lines in `marmotta/docker-compose.yml` and run `docker-compose up`. Marmotta will now have access to a host called `postgres` and you can adjust the Marmotta configuration accordingly. For this go to `http://<yourhost>:8181/storage-kiwi/admin/database.html` and adjust the following parameters:
+
+* Database: `postgres`
+* Host: `jdbc:postgresql://postgres:5432/postgres?prepareThreshold=3`
+* User: `postgres`
+* Password: `yourPostgresPassword`
+
+You can change the password by adjusting the environment variable `POSTGRES_PASSWORD` in `marmotta/docker-compose.yml`.
+
+Once the connection is saved you can initialize the platform. Note that in case you want to use PostgreSQL you cannot do that before, it will not work! PostgreSQL is storing the data in the postgres docker container. Consult the [homepage](https://hub.docker.com/_/postgres/) to learn about how to customize this.
+
+Note that the admin interface of Marmotta is public by default; you most probably want to lock that down in production.
