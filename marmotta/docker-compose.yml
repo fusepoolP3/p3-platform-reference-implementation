@@ -13,14 +13,14 @@ entry:
 marmotta:
   image: fusepoolp3/ldp-marmotta
   restart: unless-stopped
-  links:
-   - postgres
+#  links:
+#   - postgres
 
-postgres:
-  image: postgres 
-  restart: unless-stopped
-  environment:
-   - POSTGRES_PASSWORD=myFancyPassword
+#postgres:
+#  image: postgres 
+#  restart: unless-stopped
+#  environment:
+#   - POSTGRES_PASSWORD=myFancyPassword
    
 core:
   extends:
