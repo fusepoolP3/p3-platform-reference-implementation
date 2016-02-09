@@ -1,1 +1,1 @@
-HTTPRY %{IP:client}\t%{GREEDYDATA:request}
+HTTPRY %{IP:client}\t%{GREEDYDATA:port}\t%{GREEDYDATA:request}
