@@ -6,7 +6,7 @@
     
     P3BackendConfigurator.prototype.getLdpRoot = function() {
         return new Promise(function(resolve, reject) {
-            resolve("http://"+host+":8181/ldp/");
+            resolve("http://"+host+":8181/ldp");
         });
     };
 })();
